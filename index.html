@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,40 +10,25 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
+    darkMode: 'class',
     theme: {
       extend: {
-        fontFamily: {
-          tajawal: ['Tajawal', 'sans-serif'],
-          cairo: ['Cairo', 'sans-serif']
-        },
+        fontFamily: { tajawal:['Tajawal','sans-serif'], cairo:['Cairo','sans-serif'] },
         colors: {
-          brand: {
-            50:  '#f5f3ff',
-            100: '#ede9fe',
-            200: '#ddd6fe',
-            300: '#c4b5fd',
-            400: '#a78bfa',
-            500: '#8b5cf6',
-            600: '#7c3aed',
-            700: '#6d28d9',
-            800: '#5b21b6',
-            900: '#4c1d95'
-          },
-          gold: {
-            400: '#fbbf24',
-            500: '#f59e0b',
-            600: '#d97706'
-          }
+          brand: { 50:'#f5f3ff',100:'#ede9fe',200:'#ddd6fe',300:'#c4b5fd',400:'#a78bfa',500:'#8b5cf6',600:'#7c3aed',700:'#6d28d9',800:'#5b21b6',900:'#4c1d95' },
+          gold: { 400:'#fbbf24',500:'#f59e0b',600:'#d97706' }
         },
         animation: {
-          'fade-up': 'fadeUp 0.5s ease-out',
-          'float': 'float 3s ease-in-out infinite',
-          'shimmer': 'shimmer 2s linear infinite'
+          'fade-up':'fadeUp .5s ease-out',
+          'float':'float 3s ease-in-out infinite',
+          'slide-in':'slideIn .35s ease-out',
+          'pop':'pop .3s ease-out'
         },
         keyframes: {
-          fadeUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
-          float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
-          shimmer: { '0%': { backgroundPosition: '-1000px 0' }, '100%': { backgroundPosition: '1000px 0' } }
+          fadeUp:{'0%':{opacity:0,transform:'translateY(20px)'},'100%':{opacity:1,transform:'translateY(0)'}},
+          float:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-8px)'}},
+          slideIn:{'0%':{transform:'translateX(-100%)'},'100%':{transform:'translateX(0)'}},
+          pop:{'0%':{transform:'scale(.8)'},'50%':{transform:'scale(1.15)'},'100%':{transform:'scale(1)'}}
         }
       }
     }
@@ -51,136 +36,90 @@
 </script>
 <style>
   * { font-family: 'Tajawal', sans-serif; }
-  h1, h2, h3, .font-bold { font-family: 'Cairo', 'Tajawal', sans-serif; }
-  body { 
-    background: #fafafe;
-    background-image: 
-      radial-gradient(at 20% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
-      radial-gradient(at 80% 100%, rgba(251, 191, 36, 0.06) 0px, transparent 50%);
-    min-height: 100vh;
-  }
-  .hero-gradient {
-    background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 30%, #8b5cf6 60%, #a78bfa 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-gradient::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.25) 0%, transparent 40%),
-      radial-gradient(circle at 80% 30%, rgba(255,255,255,0.1) 0%, transparent 40%);
-  }
-  .hero-pattern {
-    position: absolute;
-    inset: 0;
-    opacity: 0.12;
-    background-image: 
-      linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  .glass {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-  .card-hover {
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .card-hover:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px -15px rgba(109, 40, 217, 0.25);
-  }
-  .category-card {
-    transition: all 0.3s ease;
-  }
-  .category-card:hover {
-    transform: translateY(-4px) scale(1.03);
-  }
-  .gradient-text {
-    background: linear-gradient(135deg, #7c3aed, #f59e0b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .btn-glow {
-    box-shadow: 0 10px 30px -8px rgba(124, 58, 237, 0.5);
-  }
-  .btn-glow:hover {
-    box-shadow: 0 15px 40px -8px rgba(124, 58, 237, 0.7);
-  }
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: #f1f5f9; }
-  ::-webkit-scrollbar-thumb { 
-    background: linear-gradient(#8b5cf6, #7c3aed); 
-    border-radius: 10px;
-  }
-  .badge-new {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.85; }
-  }
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+  h1,h2,h3,.font-bold,.font-black { font-family: 'Cairo','Tajawal', sans-serif; }
+  body { background:#fafafe; min-height:100vh; transition: background .3s; }
+  .dark body { background:#0f0a1f; color:#e2e8f0; }
+  .dark { color-scheme: dark; }
+  .dark .bg-white { background-color:#1a142e !important; }
+  .dark .bg-slate-50 { background-color:#15102a !important; }
+  .dark .bg-slate-100 { background-color:#221a3a !important; }
+  .dark .text-slate-800,.dark .text-slate-900 { color:#f1f5f9 !important; }
+  .dark .text-slate-700 { color:#cbd5e1 !important; }
+  .dark .text-slate-600,.dark .text-slate-500 { color:#94a3b8 !important; }
+  .dark .border-slate-100 { border-color:#2d2350 !important; }
+  .dark .border-slate-200 { border-color:#3b2f66 !important; }
+  .dark .bg-slate-200 { background-color:#3b2f66 !important; }
+  .dark footer { background:#080514 !important; }
+  .dark .glass { background: rgba(26, 20, 46, .8) !important; border-color: #2d2350 !important; }
+  .hero-gradient { background: linear-gradient(135deg,#4c1d95 0%,#6d28d9 30%,#8b5cf6 60%,#a78bfa 100%); position:relative; overflow:hidden; }
+  .hero-gradient::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 20% 50%, rgba(251,191,36,.25) 0%, transparent 40%), radial-gradient(circle at 80% 30%, rgba(255,255,255,.1) 0%, transparent 40%); }
+  .hero-pattern { position:absolute; inset:0; opacity:.12; background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px); background-size:40px 40px; }
+  .glass { background: rgba(255,255,255,.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  .card-hover { transition: all .35s cubic-bezier(.4,0,.2,1); }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -15px rgba(109,40,217,.35); }
+  .category-card { transition: all .3s ease; }
+  .category-card:hover { transform: translateY(-4px) scale(1.03); }
+  .gradient-text { background: linear-gradient(135deg,#7c3aed,#f59e0b); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .dark .gradient-text { background: linear-gradient(135deg,#a78bfa,#fbbf24); -webkit-background-clip:text; background-clip:text; }
+  .btn-glow { box-shadow: 0 10px 30px -8px rgba(124,58,237,.5); }
+  .btn-glow:hover { box-shadow: 0 15px 40px -8px rgba(124,58,237,.7); }
+  ::-webkit-scrollbar { width:10px; height:10px; }
+  ::-webkit-scrollbar-track { background:#f1f5f9; }
+  .dark ::-webkit-scrollbar-track { background:#1a142e; }
+  ::-webkit-scrollbar-thumb { background:linear-gradient(#8b5cf6,#7c3aed); border-radius:10px; }
+  .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .badge-new { background: linear-gradient(135deg,#fbbf24,#f59e0b); }
+  .skeleton { background: linear-gradient(90deg,#ede9fe 25%,#ddd6fe 50%,#ede9fe 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+  .dark .skeleton { background: linear-gradient(90deg,#2d2350 25%,#3b2f66 50%,#2d2350 75%); background-size: 200% 100%; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  input[type="range"] { accent-color: #7c3aed; }
+  .cart-bounce { animation: pop .4s ease-out; }
+  .chip { transition: all .2s; }
+  .chip:hover { transform: translateY(-2px); }
+  .cat-icon svg { width: 28px; height: 28px; }
 </style>
 </head>
 <body class="font-tajawal text-slate-800">
 
-<!-- ============ TOP BAR ============ -->
+<!-- TOP BAR -->
 <div class="bg-gradient-to-l from-brand-800 to-brand-600 text-white text-xs py-2 text-center">
   <span class="animate-float inline-block">🚚</span> توصيل مجاني للطلبات فوق 300 درهم · الدفع عند الاستلام · 🇲🇦 مغربي 100%
 </div>
 
-<!-- ============ HEADER ============ -->
+<!-- HEADER -->
 <header class="sticky top-0 z-40 glass border-b border-brand-100 shadow-sm">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4">
-    <!-- Logo -->
-    <button onclick="showView('store')" class="flex items-center gap-2 shrink-0 group">
-      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-110 transition-transform">
-        🛍️
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+    <button id="logoBtn" class="flex items-center gap-2 shrink-0 group">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg>
       </div>
-      <div class="text-right">
+      <div class="text-right hidden sm:block">
         <h1 class="text-xl font-black leading-none gradient-text">bzaaf-ma</h1>
         <p class="text-[10px] text-slate-500 leading-tight mt-0.5">بزاف · سوقك</p>
       </div>
     </button>
 
-    <!-- Search -->
-    <div class="flex-1 max-w-2xl relative">
-      <input id="searchInput" type="text" placeholder="🔍 شنو كتقلب عليه اليوم؟"
-        class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-2xl px-5 py-2.5 text-sm outline-none transition-colors bg-white/80" 
-        oninput="renderStore()" />
+    <div class="flex-1 max-w-2xl relative hidden md:block">
+      <input id="searchInput" type="text" placeholder="🔍 شنو كتقلب عليه اليوم؟" 
+        class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-2xl px-5 py-2.5 text-sm outline-none transition-colors bg-white/80 dark:bg-slate-800" 
+        oninput="debouncedRender()" />
     </div>
 
-    <!-- Actions -->
     <div class="flex items-center gap-2 shrink-0">
-      <button onclick="showView('store')" class="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 text-slate-700 transition">
-        <span>🏠</span> الرئيسية
+      <button onclick="toggleDark()" class="w-10 h-10 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/30 flex items-center justify-center" title="تبديل الوضع">
+        <span id="darkIcon">🌙</span>
       </button>
-      <button onclick="showView('orders')" class="relative px-3 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 text-slate-700 transition">
-        <span>📋</span>
-        <span id="ordersCount" class="absolute -top-1 -left-1 bg-gradient-to-br from-red-500 to-rose-600 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold shadow">0</span>
-      </button>
-      <button onclick="showView('admin')" class="px-4 py-2 rounded-xl text-sm font-bold text-white bg-gradient-to-l from-brand-700 to-brand-500 btn-glow hover:scale-105 transition">
-        ⚙️ التحكم
+      <button onclick="openCart()" class="relative w-10 h-10 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/30 flex items-center justify-center" title="السلة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <span id="cartCount" class="absolute -top-1 -left-1 bg-gradient-to-br from-red-500 to-rose-600 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold shadow hidden">0</span>
       </button>
     </div>
   </div>
 </header>
 
-<!-- ============ STORE VIEW ============ -->
+<!-- STORE VIEW -->
 <main id="view-store">
 
-  <!-- HERO -->
   <section class="hero-gradient text-white">
     <div class="hero-pattern"></div>
     <div class="relative max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
@@ -193,19 +132,14 @@
       <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto animate-fade-up">
         تسوّق أونلاين بثقة · الدفع عند الاستلام · توصيل لجميع مدن المغرب
       </p>
-      <div class="flex flex-wrap gap-3 justify-center animate-fade-up">
-        <button onclick="scrollToProducts()" class="bg-white text-brand-700 px-8 py-3.5 rounded-2xl font-bold hover:scale-105 transition shadow-xl">
+      <div class="flex justify-center animate-fade-up">
+        <button onclick="scrollToProducts()" class="bg-white text-brand-700 px-10 py-4 rounded-2xl font-black hover:scale-105 transition shadow-xl text-lg">
           🛒 تسوّق دابا
         </button>
-        <button onclick="showView('admin')" class="bg-white/10 backdrop-blur border border-white/30 px-8 py-3.5 rounded-2xl font-bold hover:bg-white/20 transition">
-          📦 بيع معنا
-        </button>
       </div>
-
-      <!-- Stats -->
       <div class="grid grid-cols-3 gap-4 max-w-2xl mx-auto mt-12 animate-fade-up">
         <div class="bg-white/10 backdrop-blur rounded-2xl p-3 border border-white/20">
-          <p class="text-2xl md:text-3xl font-black text-gold-400">+500</p>
+          <p class="text-2xl md:text-3xl font-black text-gold-400" id="heroProductsCount">0</p>
           <p class="text-xs text-white/80">منتج متوفر</p>
         </div>
         <div class="bg-white/10 backdrop-blur rounded-2xl p-3 border border-white/20">
@@ -219,88 +153,140 @@
       </div>
     </div>
     <svg class="block w-full h-10 md:h-16" viewBox="0 0 1440 80" preserveAspectRatio="none">
-      <path fill="#fafafe" d="M0,40 C320,80 720,0 1440,40 L1440,80 L0,80 Z"/>
+      <path fill="currentColor" class="text-slate-50 dark:text-[#0f0a1f]" d="M0,40 C320,80 720,0 1440,40 L1440,80 L0,80 Z"/>
     </svg>
   </section>
 
-  <!-- CATEGORIES -->
   <section class="max-w-7xl mx-auto px-4 py-10">
     <div class="flex items-end justify-between mb-6">
       <div>
-        <h2 class="text-2xl md:text-3xl font-black text-slate-900">تصفح الفئات</h2>
-        <p class="text-sm text-slate-500 mt-1">اختار الفئة اللي كتستهويك وشوف المنتجات</p>
+        <h2 class="text-2xl md:text-3xl font-black">تصفح الفئات</h2>
+        <p class="text-sm text-slate-500 mt-1">اختار الفئة اللي كتستهويك</p>
       </div>
       <button onclick="clearCategory()" class="text-sm text-brand-600 font-semibold hover:underline">عرض الكل ←</button>
     </div>
-
     <div id="categoriesGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3"></div>
   </section>
 
-  <!-- PRODUCTS -->
-  <section id="productsSection" class="max-w-7xl mx-auto px-4 pb-16">
-    <div class="flex items-end justify-between mb-6 flex-wrap gap-3">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-black text-slate-900" id="productsTitle">كل المنتجات</h2>
-        <p class="text-sm text-slate-500 mt-1" id="productsSubtitle">تصفح مجموعتنا الكاملة</p>
+  <section class="max-w-7xl mx-auto px-4">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-4 md:p-5 shadow-sm">
+      <div class="flex items-center gap-2 mb-4 flex-wrap">
+        <span class="text-sm font-bold text-slate-700">🎯 فلترة متقدمة</span>
+        <button onclick="resetFilters()" class="mr-auto text-xs text-brand-600 hover:underline font-semibold">إعادة ضبط</button>
       </div>
-      <div class="flex items-center gap-2">
-        <select id="sortSelect" class="border-2 border-slate-200 rounded-xl px-3 py-2 text-sm bg-white focus:border-brand-500 outline-none" onchange="renderStore()">
-          <option value="new">الأحدث</option>
-          <option value="price-asc">الأرخص أولاً</option>
-          <option value="price-desc">الأغلى أولاً</option>
-          <option value="margin">الأعلى هامشاً</option>
-        </select>
+      <div class="grid md:grid-cols-4 gap-4">
+        <div class="md:col-span-2">
+          <label class="text-xs font-bold text-slate-500 block mb-1">🔍 البحث</label>
+          <input id="searchInputMobile" type="text" placeholder="اسم المنتج..." 
+            class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl px-4 py-2.5 text-sm outline-none bg-white dark:bg-slate-900" 
+            oninput="syncSearch(this.value)" />
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-500 block mb-1">📊 الترتيب</label>
+          <select id="sortSelect" onchange="renderStore()" 
+            class="w-full border-2 border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm bg-white dark:bg-slate-900 outline-none font-semibold">
+            <option value="new">🆕 الأحدث</option>
+            <option value="price-asc">💵 الأرخص أولاً</option>
+            <option value="price-desc">💰 الأغلى أولاً</option>
+            <option value="margin">📈 الأعلى هامشاً</option>
+            <option value="name">🔤 أبجدي</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-500 block mb-1">⚡ توفر</label>
+          <select id="stockFilter" onchange="renderStore()" 
+            class="w-full border-2 border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-sm bg-white dark:bg-slate-900 outline-none font-semibold">
+            <option value="all">الكل</option>
+            <option value="new">جديد فقط</option>
+            <option value="cheap">أقل من 100 DH</option>
+            <option value="premium">+500 DH</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex items-center justify-between mb-1">
+          <label class="text-xs font-bold text-slate-500">💲 نطاق الثمن</label>
+          <span id="priceRangeLabel" class="text-xs font-bold text-brand-600">0 — 1000 DH</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <input id="priceMin" type="range" min="0" max="1000" value="0" step="10" class="flex-1" oninput="updatePriceRange()" />
+          <input id="priceMax" type="range" min="0" max="1000" value="1000" step="10" class="flex-1" oninput="updatePriceRange()" />
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <span class="text-xs font-bold text-slate-500 self-center">⚡ سريع:</span>
+        <button onclick="quickFilter('cheap')" class="chip text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-100 hover:bg-brand-100 hover:text-brand-700">💸 أقل من 100 DH</button>
+        <button onclick="quickFilter('mid')" class="chip text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-100 hover:bg-brand-100 hover:text-brand-700">👌 100—300 DH</button>
+        <button onclick="quickFilter('premium')" class="chip text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-100 hover:bg-brand-100 hover:text-brand-700">💎 أكثر من 300 DH</button>
+        <button onclick="quickFilter('topmargin')" class="chip text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-100 hover:bg-brand-100 hover:text-brand-700">📈 أفضل هامش</button>
       </div>
     </div>
+  </section>
 
+  <section id="productsSection" class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex items-end justify-between mb-6 flex-wrap gap-3">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-black" id="productsTitle">كل المنتجات</h2>
+        <p class="text-sm text-slate-500 mt-1" id="productsSubtitle">تصفح مجموعتنا الكاملة</p>
+      </div>
+      <div class="text-sm text-slate-500 font-semibold">
+        <span id="resultsCount" class="text-brand-600 font-black">0</span> نتيجة
+      </div>
+    </div>
     <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
     <div id="emptyState" class="hidden text-center py-20">
       <div class="text-6xl mb-4">📦</div>
       <p class="text-slate-600 mb-6 text-lg">ما كاينش منتجات فهاد الفئة دابا</p>
-      <button onclick="showView('admin')" class="bg-gradient-to-l from-brand-700 to-brand-500 text-white px-6 py-3 rounded-2xl font-bold btn-glow">
-        زيد منتجات من لوحة التحكم
-      </button>
+      <button onclick="resetFilters();clearCategory()" class="bg-gradient-to-l from-brand-700 to-brand-500 text-white px-6 py-3 rounded-2xl font-bold btn-glow">أعد ضبط الفلاتر</button>
     </div>
   </section>
 
-  <!-- FEATURES -->
   <section class="max-w-7xl mx-auto px-4 pb-16">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover">
-        <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-2xl mb-4">🚚</div>
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 card-hover">
+        <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center mb-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
         <h3 class="font-bold mb-1">توصيل سريع</h3>
         <p class="text-sm text-slate-500">لجميع مدن المغرب ف48 ساعة</p>
       </div>
-      <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover">
-        <div class="w-12 h-12 rounded-2xl bg-gold-400/20 text-gold-600 flex items-center justify-center text-2xl mb-4">💵</div>
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 card-hover">
+        <div class="w-12 h-12 rounded-2xl bg-gold-400/20 text-gold-600 flex items-center justify-center mb-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+        </div>
         <h3 class="font-bold mb-1">الدفع عند الاستلام</h3>
         <p class="text-sm text-slate-500">خلّص ملي توصلك السلعة</p>
       </div>
-      <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl mb-4">🛡️</div>
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 card-hover">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
         <h3 class="font-bold mb-1">ضمان الجودة</h3>
         <p class="text-sm text-slate-500">إرجاع مجاني خلال 7 أيام</p>
       </div>
-      <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover">
-        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-2xl mb-4">💬</div>
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 card-hover">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center mb-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
         <h3 class="font-bold mb-1">دعم 24/7</h3>
         <p class="text-sm text-slate-500">فريق ديالنا دائماً معاك</p>
       </div>
     </div>
   </section>
-
 </main>
 
-<!-- ============ ADMIN VIEW ============ -->
+<!-- ADMIN VIEW -->
 <main id="view-admin" class="hidden max-w-7xl mx-auto px-4 py-8">
   <div class="flex items-center justify-between mb-6">
     <div>
-      <h2 class="text-3xl font-black text-slate-900">⚙️ لوحة التحكم</h2>
+      <h2 class="text-3xl font-black">⚙️ لوحة التحكم</h2>
       <p class="text-sm text-slate-500 mt-1">دير كلشي على منتجاتك وقواعد التسعير</p>
     </div>
+    <button onclick="adminLogout()" class="bg-red-50 text-red-700 px-4 py-2 rounded-xl font-bold hover:bg-red-100 text-sm">
+      🚪 خروج
+    </button>
   </div>
 
-  <!-- Stats -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
     <div class="bg-gradient-to-br from-brand-600 to-brand-800 text-white rounded-3xl p-5 shadow-lg relative overflow-hidden">
       <div class="absolute -left-4 -bottom-4 text-8xl opacity-10">📦</div>
@@ -325,8 +311,7 @@
   </div>
 
   <div class="grid md:grid-cols-2 gap-6">
-    <!-- Rules -->
-    <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+    <section class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
       <div class="flex items-center justify-between mb-4">
         <div>
           <h3 class="font-black text-lg">💹 قواعد هامش الربح</h3>
@@ -341,46 +326,71 @@
       </div>
     </section>
 
-    <!-- Products -->
-    <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-      <h3 class="font-black text-lg mb-4">📦 إدارة المنتجات</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="loadMockProducts()" class="col-span-2 bg-gradient-to-l from-emerald-600 to-emerald-500 text-white py-3 rounded-xl font-bold hover:scale-105 transition">
-          🎁 حمّل منتجات تجريبية
-        </button>
-        <button onclick="openProductForm()" class="bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-700">✏️ زيد منتج</button>
-        <label class="bg-slate-100 text-slate-800 py-3 rounded-xl font-bold text-center cursor-pointer hover:bg-slate-200">
-          📂 استورد JSON
-          <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
-        </label>
-        <button onclick="exportData()" class="bg-brand-100 text-brand-800 py-3 rounded-xl font-bold hover:bg-brand-200">⬇️ صدّر</button>
-        <label class="bg-brand-100 text-brand-800 py-3 rounded-xl font-bold text-center cursor-pointer hover:bg-brand-200">
-          ⬆️ استورد
-          <input type="file" accept=".json" onchange="importAll(event)" class="hidden" />
-        </label>
-        <button onclick="clearAll()" class="col-span-2 bg-red-50 text-red-700 py-3 rounded-xl font-bold hover:bg-red-100">🗑️ مسح كلشي</button>
+    <section class="space-y-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+        <h3 class="font-black text-lg mb-3">🔑 تغيير كلمة السر</h3>
+        <div class="grid md:grid-cols-3 gap-2">
+          <input id="oldPass" type="password" placeholder="كلمة السر القديمة" 
+            class="border-2 border-slate-200 dark:border-slate-700 rounded-xl p-3 text-sm outline-none bg-white dark:bg-slate-900" />
+          <input id="newPass" type="password" placeholder="كلمة السر الجديدة"
+            class="border-2 border-slate-200 dark:border-slate-700 rounded-xl p-3 text-sm outline-none bg-white dark:bg-slate-900" />
+          <button onclick="changeAdminPassword()" class="bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-700">💾 بدل</button>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-2">كلمة السر الافتراضية: <code class="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">bzaaf2025</code></p>
       </div>
 
-      <div class="mt-6">
-        <h4 class="font-bold text-sm mb-3 text-slate-500">آخر المنتجات:</h4>
-        <div id="adminProductsList" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+        <h3 class="font-black text-lg mb-3">📱 إعدادات واتساب</h3>
+        <p class="text-xs text-slate-500 mb-3">دخل رقمك باش الطلبات توصلك ديركت</p>
+        <div class="flex gap-2">
+          <input id="whatsappInput" type="tel" placeholder="212600000000" 
+            class="flex-1 border-2 border-slate-200 dark:border-slate-700 focus:border-emerald-500 rounded-xl p-3 text-sm outline-none bg-white dark:bg-slate-900" />
+          <button onclick="saveWhatsapp()" class="bg-emerald-600 text-white px-5 rounded-xl font-bold hover:bg-emerald-700">💾</button>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-2">بلا + ولا مسافات · مثلاً: 212612345678</p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+        <h3 class="font-black text-lg mb-4">📦 إدارة المنتجات</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="loadMockProducts()" class="col-span-2 bg-gradient-to-l from-emerald-600 to-emerald-500 text-white py-3 rounded-xl font-bold hover:scale-105 transition">🎁 حمّل منتجات تجريبية</button>
+          <button onclick="openProductForm()" class="bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-700">✏️ زيد منتج</button>
+          <label class="bg-slate-100 dark:bg-slate-700 py-3 rounded-xl font-bold text-center cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600">
+            📂 استورد JSON
+            <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
+          </label>
+          <button onclick="exportData()" class="bg-brand-100 dark:bg-brand-900/40 text-brand-800 dark:text-brand-200 py-3 rounded-xl font-bold hover:bg-brand-200">⬇️ صدّر</button>
+          <label class="bg-brand-100 dark:bg-brand-900/40 text-brand-800 dark:text-brand-200 py-3 rounded-xl font-bold text-center cursor-pointer hover:bg-brand-200">
+            ⬆️ استورد
+            <input type="file" accept=".json" onchange="importAll(event)" class="hidden" />
+          </label>
+          <button onclick="clearAll()" class="col-span-2 bg-red-50 text-red-700 py-3 rounded-xl font-bold hover:bg-red-100">🗑️ مسح كلشي</button>
+        </div>
+        <div class="mt-5">
+          <h4 class="font-bold text-sm mb-3 text-slate-500">المنتجات:</h4>
+          <div id="adminProductsList" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        </div>
       </div>
     </section>
   </div>
+
+  <div class="mt-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-2xl font-black">📋 الطلبات</h3>
+      <button onclick="clearOrders()" class="text-sm text-red-600 hover:underline font-semibold">🗑️ حذف الكل</button>
+    </div>
+    <div id="ordersList" class="space-y-3"></div>
+  </div>
 </main>
 
-<!-- ============ ORDERS VIEW ============ -->
-<main id="view-orders" class="hidden max-w-7xl mx-auto px-4 py-8">
-  <h2 class="text-3xl font-black text-slate-900 mb-6">📋 الطلبات</h2>
-  <div id="ordersList" class="space-y-3"></div>
-</main>
-
-<!-- ============ FOOTER ============ -->
+<!-- FOOTER -->
 <footer class="bg-slate-900 text-white mt-16">
   <div class="max-w-7xl mx-auto px-4 py-12 grid md:grid-cols-4 gap-8">
     <div>
       <div class="flex items-center gap-2 mb-4">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-xl">🛍️</div>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        </div>
         <div>
           <p class="font-black text-lg">bzaaf-ma</p>
           <p class="text-[10px] text-white/60">بزاف · سوقك</p>
@@ -392,14 +402,12 @@
       <h4 class="font-bold mb-4">روابط سريعة</h4>
       <ul class="space-y-2 text-sm text-white/70">
         <li><button onclick="showView('store')" class="hover:text-white">المتجر</button></li>
-        <li><button onclick="showView('orders')" class="hover:text-white">الطلبات</button></li>
-        <li><button onclick="showView('admin')" class="hover:text-white">لوحة التحكم</button></li>
       </ul>
     </div>
     <div>
       <h4 class="font-bold mb-4">خدمة الزبناء</h4>
       <ul class="space-y-2 text-sm text-white/70">
-        <li>📞 +212 6XX XXX XXX</li>
+        <li>📞 <span id="footerPhone">+212 6XX XXX XXX</span></li>
         <li>📧 contact@bzaaf.ma</li>
         <li>🕒 9:00 — 21:00 (7/7)</li>
       </ul>
@@ -407,10 +415,18 @@
     <div>
       <h4 class="font-bold mb-4">تابعنا</h4>
       <div class="flex gap-2">
-        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">📘</a>
-        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">📷</a>
-        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">🎵</a>
-        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">💬</a>
+        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="#" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-brand-600 flex items-center justify-center transition">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        </a>
+        <a href="#" onclick="openWhatsappDirect(event)" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-emerald-600 flex items-center justify-center transition">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        </a>
       </div>
     </div>
   </div>
@@ -419,217 +435,416 @@
   </div>
 </footer>
 
-<!-- ============ PRODUCT MODAL ============ -->
+<!-- CART SIDEBAR -->
+<div id="cartOverlay" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" onclick="closeCart(event)">
+  <aside id="cartPanel" onclick="event.stopPropagation()"
+    class="absolute top-0 left-0 h-full w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl flex flex-col animate-slide-in">
+    <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
+      <h3 class="text-xl font-black">🛒 السلة ديالك</h3>
+      <button onclick="closeCart()" class="w-9 h-9 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-lg">✕</button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+    <div class="p-5 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+      <div class="flex justify-between mb-3">
+        <span class="font-bold">المجموع:</span>
+        <span id="cartTotal" class="text-2xl font-black text-brand-700">0 MAD</span>
+      </div>
+      <button onclick="checkoutCart()" id="cartCheckoutBtn" class="w-full bg-gradient-to-l from-emerald-600 to-emerald-500 text-white py-4 rounded-2xl font-black btn-glow disabled:opacity-50">
+        📱 أتمم الشراء
+      </button>
+    </div>
+  </aside>
+</div>
+
+<!-- PRODUCT MODAL -->
 <div id="productModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+  <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
     <div id="productModalContent" class="p-6 md:p-8"></div>
   </div>
 </div>
 
-<!-- ============ PRODUCT FORM MODAL ============ -->
-<div id="productFormModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 max-h-[92vh] overflow-y-auto shadow-2xl">
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal" class="hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl max-h-[92vh] overflow-y-auto">
     <div class="flex items-center justify-between mb-5">
-      <h3 class="font-black text-xl">إضافة / تعديل منتج</h3>
-      <button onclick="closeModal('productFormModal')" class="w-8 h-8 rounded-lg hover:bg-slate-100">✕</button>
+      <h3 class="font-black text-xl">📱 تأكيد الطلب</h3>
+      <button onclick="closeModal('checkoutModal')" class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">✕</button>
     </div>
-    <form id="productForm" class="space-y-3" onsubmit="saveProduct(event)">
-      <input type="hidden" id="pf-id" />
-      <input required id="pf-title" placeholder="عنوان المنتج" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 outline-none" />
-      <textarea required id="pf-desc" placeholder="الوصف" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 outline-none" rows="3"></textarea>
-      <input required id="pf-image" placeholder="رابط الصورة (URL)" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 outline-none" />
-      <div class="grid grid-cols-2 gap-3">
-        <input required type="number" step="0.01" id="pf-cost" placeholder="ثمن التكلفة (MAD)" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 outline-none" />
-        <select id="pf-category" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 outline-none bg-white"></select>
+    <form id="checkoutForm" onsubmit="submitCheckout(event)" class="space-y-3">
+      <input required name="name" placeholder="الاسم الكامل" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" />
+      <input required name="phone" placeholder="رقم الهاتف" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" />
+      <input required name="city" placeholder="المدينة" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" />
+      <textarea required name="address" placeholder="العنوان الكامل" rows="2" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800"></textarea>
+      <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-sm">
+        <div class="flex justify-between mb-1"><span>عدد المنتجات:</span><span id="checkoutItemsCount" class="font-bold">0</span></div>
+        <div class="flex justify-between"><span>المجموع:</span><span id="checkoutTotal" class="font-black text-brand-700">0 MAD</span></div>
       </div>
-      <input id="pf-supplier" placeholder="اسم المورد" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 outline-none" />
-      <div class="flex gap-2 pt-2">
-        <button type="submit" class="flex-1 bg-gradient-to-l from-brand-700 to-brand-500 text-white py-3 rounded-xl font-bold btn-glow">💾 سجل</button>
-        <button type="button" onclick="closeModal('productFormModal')" class="flex-1 bg-slate-100 py-3 rounded-xl font-bold hover:bg-slate-200">إلغاء</button>
-      </div>
+      <button type="submit" class="w-full bg-gradient-to-l from-emerald-600 to-emerald-500 text-white py-4 rounded-2xl font-black btn-glow">
+        ✅ أرسل الطلب
+      </button>
     </form>
   </div>
 </div>
 
-<!-- ============ TOAST ============ -->
-<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl font-semibold text-sm"></div>
+<!-- ADMIN LOGIN MODAL -->
+<div id="adminLoginModal" class="hidden fixed inset-0 z-[80] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full p-6 md:p-8 shadow-2xl">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">🔐</div>
+      <h3 class="text-2xl font-black">لوحة التحكم</h3>
+      <p class="text-xs text-slate-500 mt-1">خاص بالمدير فقط</p>
+    </div>
+    <form onsubmit="tryLogin(event)" class="space-y-3">
+      <input id="adminPasswordInput" type="password" placeholder="كلمة السر" autocomplete="off"
+        class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 text-center outline-none bg-white dark:bg-slate-800 font-bold" />
+      <p id="loginError" class="text-xs text-red-600 text-center hidden">❌ كلمة السر غالطة</p>
+      <button type="submit" class="w-full bg-gradient-to-l from-brand-700 to-brand-500 text-white py-3 rounded-xl font-bold btn-glow">🔓 دخول</button>
+      <button type="button" onclick="closeModal('adminLoginModal')" class="w-full bg-slate-100 dark:bg-slate-800 py-3 rounded-xl font-bold">إلغاء</button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3.5 rounded-2xl shadow-2xl font-semibold text-sm"></div>
 
 <script>
 /* ============================================================
-   BZAAF-MA — كلشي فملف واحد
+   BZAAF-MA · Single File App
    ============================================================ */
 
-const LS_KEYS = { products: 'bz_products', rules: 'bz_rules', orders: 'bz_orders' };
+const LS = {
+  products:'bz_products', rules:'bz_rules', orders:'bz_orders',
+  cart:'bz_cart', dark:'bz_dark', settings:'bz_settings'
+};
 
-/* ---------- CATEGORIES (16) ---------- */
+const ADMIN_PASSWORD_KEY = 'bz_admin_pass';
+const ADMIN_SESSION_KEY  = 'bz_admin_session';
+const DEFAULT_ADMIN_PASSWORD = 'bzaaf2025';
+
+/* ============================================================
+   SVG ICONS FOR CATEGORIES (Lucide-style)
+   ============================================================ */
+const SVG = {
+  electronics: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg>',
+  'fashion-m': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l4 4-3 2v12H7V9L4 7l4-4 4 2 4-2z"/></svg>',
+  'fashion-w': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 4 4 14H6l4-14-1-4z"/></svg>',
+  beauty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M5 20h14"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V13h6v9"/></svg>',
+  sports: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6v12M18 6v12M3 9v6M21 9v6M6 12h12"/></svg>',
+  kids: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="6"/><circle cx="12" cy="4.5" r="2"/><circle cx="6" cy="7" r="1.8"/><circle cx="18" cy="7" r="1.8"/></svg>',
+  auto: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17v-6l2-5h10l2 5v6"/><path d="M3 17h18"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg>',
+  toys: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="4"/><path d="M7 11v2M6 12h2M15 11h.01M17 13h.01"/></svg>',
+  books: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v13H6.5A2.5 2.5 0 004 19.5z"/></svg>',
+  pets: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="3.5"/><circle cx="6" cy="8" r="1.8"/><circle cx="10" cy="5" r="1.8"/><circle cx="14" cy="5" r="1.8"/><circle cx="18" cy="8" r="1.8"/></svg>',
+  tools: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 105.4 5.4L21 11l-3-3-3 3-6.3-6.3L10 3l-3 3 3 3-6.3 6.3L2 17l3 3 1.7-1.7L13 12l1.7 1.7"/></svg>',
+  garden: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12c0-4 3-7 8-6 0 5-4 8-8 7M12 14c0-4-3-7-8-6 0 5 4 8 8 7"/></svg>',
+  health: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 8.5A5 5 0 0012 5.5 5 5 0 003.5 8.5c0 5.5 8.5 11 8.5 11s8.5-5.5 8.5-11z"/><path d="M8 12h2l1.5-2 1.5 3 1-1h2"/></svg>',
+  office: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 12h18"/></svg>',
+  food: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v8a2 2 0 002 2 2 2 0 002-2V3M6 3v18M16 3v18M16 11c2 0 3-1 3-3V3"/></svg>'
+};
+
 const CATEGORIES = [
-  { id: 'electronics', name: 'إلكترونيات',   icon: '📱', color: 'from-blue-500 to-blue-700' },
-  { id: 'fashion-m',   name: 'أزياء رجالية', icon: '👔', color: 'from-slate-700 to-slate-900' },
-  { id: 'fashion-w',   name: 'أزياء نسائية', icon: '👗', color: 'from-pink-500 to-rose-600' },
-  { id: 'beauty',      name: 'جمال وعناية',  icon: '💄', color: 'from-fuchsia-500 to-pink-600' },
-  { id: 'home',        name: 'منزل ومطبخ',   icon: '🏠', color: 'from-amber-500 to-orange-600' },
-  { id: 'sports',      name: 'رياضة ولياقة', icon: '⚽', color: 'from-emerald-500 to-green-700' },
-  { id: 'kids',        name: 'أطفال',        icon: '🧸', color: 'from-yellow-400 to-amber-500' },
-  { id: 'auto',        name: 'سيارات',       icon: '🚗', color: 'from-red-500 to-rose-700' },
-  { id: 'toys',        name: 'ألعاب',        icon: '🎮', color: 'from-indigo-500 to-purple-700' },
-  { id: 'books',       name: 'كتب',          icon: '📚', color: 'from-teal-500 to-cyan-700' },
-  { id: 'pets',        name: 'حيوانات',      icon: '🐾', color: 'from-lime-500 to-green-600' },
-  { id: 'tools',       name: 'أدوات',        icon: '🔧', color: 'from-stone-500 to-gray-700' },
-  { id: 'garden',      name: 'حديقة',        icon: '🌱', color: 'from-green-500 to-emerald-700' },
-  { id: 'health',      name: 'صحة',          icon: '💊', color: 'from-cyan-500 to-blue-600' },
-  { id: 'office',      name: 'مكتب ومدرسة',  icon: '✏️', color: 'from-violet-500 to-purple-700' },
-  { id: 'food',        name: 'مأكولات',      icon: '🍯', color: 'from-orange-500 to-red-500' }
+  { id:'electronics', name:'إلكترونيات',   color:'from-blue-500 to-blue-700' },
+  { id:'fashion-m',   name:'أزياء رجالية', color:'from-slate-700 to-slate-900' },
+  { id:'fashion-w',   name:'أزياء نسائية', color:'from-pink-500 to-rose-600' },
+  { id:'beauty',      name:'جمال وعناية',  color:'from-fuchsia-500 to-pink-600' },
+  { id:'home',        name:'منزل ومطبخ',   color:'from-amber-500 to-orange-600' },
+  { id:'sports',      name:'رياضة ولياقة', color:'from-emerald-500 to-green-700' },
+  { id:'kids',        name:'أطفال',        color:'from-yellow-400 to-amber-500' },
+  { id:'auto',        name:'سيارات',       color:'from-red-500 to-rose-700' },
+  { id:'toys',        name:'ألعاب',        color:'from-indigo-500 to-purple-700' },
+  { id:'books',       name:'كتب',          color:'from-teal-500 to-cyan-700' },
+  { id:'pets',        name:'حيوانات',      color:'from-lime-500 to-green-600' },
+  { id:'tools',       name:'أدوات',        color:'from-stone-500 to-gray-700' },
+  { id:'garden',      name:'حديقة',        color:'from-green-500 to-emerald-700' },
+  { id:'health',      name:'صحة',          color:'from-cyan-500 to-blue-600' },
+  { id:'office',      name:'مكتب ومدرسة',  color:'from-violet-500 to-purple-700' },
+  { id:'food',        name:'مأكولات',      color:'from-orange-500 to-red-500' }
 ];
 
-/* ---------- MOCK PRODUCTS ---------- */
 const MOCK_PRODUCTS = [
-  { id:'P001', title:'ساعة ذكية Smart Watch Pro', description:'ساعة ذكية بشاشة AMOLED، مقاومة للماء، بطارية 7 أيام، مراقبة النبض والنوم.', image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80', costPrice:120, category:'electronics', supplier:'mock' },
-  { id:'P002', title:'سماعات Bluetooth TWS', description:'سماعات TWS بجودة صوت عالية، علبة شحن، عزل ضوضاء، بلوتوث 5.3.', image:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80', costPrice:85, category:'electronics', supplier:'mock' },
-  { id:'P003', title:'مكنسة سيارة محمولة USB', description:'مكنسة قوية USB بشفط عالي، مثالية للسيارة والبيت.', image:'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=600&q=80', costPrice:65, category:'auto', supplier:'mock' },
-  { id:'P004', title:'حقيبة ظهر مقاومة للماء', description:'حقيبة عصرية مقاومة للماء، منفذ USB، مساحة لابتوب 15.6 بوصة.', image:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80', costPrice:95, category:'fashion-m', supplier:'mock' },
-  { id:'P005', title:'آلة قهوة إسبريسو محمولة', description:'آلة قهوة محمولة، تشتغل بالبطارية، مثالية للسفر.', image:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80', costPrice:180, category:'home', supplier:'mock' },
-  { id:'P006', title:'نظارة شمسية Polarized', description:'نظارة شمسية بعدسات مستقطبة UV400، إطار خفيف ومتين.', image:'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80', costPrice:55, category:'fashion-m', supplier:'mock' },
-  { id:'P007', title:'كريم مرطب للبشرة', description:'كريم مرطب طبيعي بزبدة الشيا، لبشرة ناعمة ومشرقة.', image:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80', costPrice:45, category:'beauty', supplier:'mock' },
-  { id:'P008', title:'حذاء رياضي للجري', description:'حذاء رياضي خفيف ومريح، مثالي للجري والتمارين.', image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80', costPrice:220, category:'sports', supplier:'mock' },
-  { id:'P009', title:'دمية دب كبيرة', description:'دمية دب ناعمة وآمنة للأطفال، حجم كبير 60 سم.', image:'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=600&q=80', costPrice:75, category:'kids', supplier:'mock' },
-  { id:'P010', title:'مصباح مكتب LED', description:'مصباح مكتب LED قابل للطي، 3 درجات إضاءة، USB.', image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80', costPrice:60, category:'office', supplier:'mock' },
-  { id:'P011', title:'طقم أواني طبخ', description:'طقم 5 قطع أواني طبخ غير لاصقة، جودة عالية.', image:'https://images.unsplash.com/photo-1584990347449-a2d4c2c7e0f0?w=600&q=80', costPrice:280, category:'home', supplier:'mock' },
-  { id:'P012', title:'عطر رجالي فاخر', description:'عطر رجالي بثبات طويل، رائحة خشبية منعشة.', image:'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80', costPrice:150, category:'beauty', supplier:'mock' },
-  { id:'P013', title:'كتاب تطوير الذات', description:'كتاب ملهم لتطوير الذات وتحقيق الأهداف.', image:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', costPrice:35, category:'books', supplier:'mock' },
-  { id:'P014', title:'طوق للكلاب', description:'طوق جلدي متين للكلاب، مع حلقة معدنية.', image:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&q=80', costPrice:40, category:'pets', supplier:'mock' },
-  { id:'P015', title:'طقم أدوات منزلية', description:'طقم أدوات يدوية 40 قطعة، مثالي للإصلاحات.', image:'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=600&q=80', costPrice:190, category:'tools', supplier:'mock' },
-  { id:'P016', title:'لعبة PlayStation 5 يد', description:'يد تحكم لاسلكية متوافقة مع PS5 وPC.', image:'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&q=80', costPrice:340, category:'toys', supplier:'mock' }
+  { id:'P001', title:'ساعة ذكية Smart Watch Pro', description:'ساعة ذكية بشاشة AMOLED، مقاومة للماء، بطارية 7 أيام، مراقبة النبض والنوم.', image:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80', costPrice:120, category:'electronics' },
+  { id:'P002', title:'سماعات Bluetooth TWS', description:'سماعات TWS بجودة صوت عالية، علبة شحن، عزل ضوضاء.', image:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80', costPrice:85, category:'electronics' },
+  { id:'P003', title:'مكنسة سيارة محمولة USB', description:'مكنسة قوية USB بشفط عالي، مثالية للسيارة والبيت.', image:'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=600&q=80', costPrice:65, category:'auto' },
+  { id:'P004', title:'حقيبة ظهر مقاومة للماء', description:'حقيبة عصرية مقاومة للماء، منفذ USB، مساحة لابتوب 15.6 بوصة.', image:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80', costPrice:95, category:'fashion-m' },
+  { id:'P005', title:'آلة قهوة إسبريسو محمولة', description:'آلة قهوة محمولة، تشتغل بالبطارية، مثالية للسفر.', image:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80', costPrice:180, category:'home' },
+  { id:'P006', title:'نظارة شمسية Polarized', description:'نظارة شمسية بعدسات مستقطبة UV400.', image:'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80', costPrice:55, category:'fashion-m' },
+  { id:'P007', title:'كريم مرطب للبشرة', description:'كريم مرطب طبيعي بزبدة الشيا.', image:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80', costPrice:45, category:'beauty' },
+  { id:'P008', title:'حذاء رياضي للجري', description:'حذاء رياضي خفيف ومريح.', image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80', costPrice:220, category:'sports' },
+  { id:'P009', title:'دمية دب كبيرة', description:'دمية دب ناعمة وآمنة للأطفال، 60 سم.', image:'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=600&q=80', costPrice:75, category:'kids' },
+  { id:'P010', title:'مصباح مكتب LED', description:'مصباح مكتب LED قابل للطي، 3 درجات إضاءة.', image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80', costPrice:60, category:'office' },
+  { id:'P011', title:'طقم أواني طبخ', description:'طقم 5 قطع أواني طبخ غير لاصقة.', image:'https://images.unsplash.com/photo-1584990347449-a2d4c2c7e0f0?w=600&q=80', costPrice:280, category:'home' },
+  { id:'P012', title:'عطر رجالي فاخر', description:'عطر رجالي بثبات طويل، رائحة خشبية.', image:'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80', costPrice:150, category:'beauty' },
+  { id:'P013', title:'كتاب تطوير الذات', description:'كتاب ملهم لتطوير الذات وتحقيق الأهداف.', image:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80', costPrice:35, category:'books' },
+  { id:'P014', title:'طوق للكلاب', description:'طوق جلدي متين مع حلقة معدنية.', image:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&q=80', costPrice:40, category:'pets' },
+  { id:'P015', title:'طقم أدوات منزلية', description:'طقم أدوات يدوية 40 قطعة.', image:'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=600&q=80', costPrice:190, category:'tools' },
+  { id:'P016', title:'يد تحكم PS5', description:'يد تحكم لاسلكية متوافقة مع PS5 وPC.', image:'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&q=80', costPrice:340, category:'toys' }
 ];
 
-/* ---------- STATE ---------- */
-let state = { products: [], rules: [], orders: [], view: 'store', activeCategory: '' };
+const DEFAULT_RULES = [{ id:'r1', name:'هامش افتراضي 40%', type:'percent', value:40, priority:1, minCost:0, maxCost:null, category:'' }];
 
-const DEFAULT_RULES = [
-  { id: 'r1', name: 'هامش افتراضي 40%', type: 'percent', value: 40, priority: 1, minCost: 0, maxCost: null, category: '' }
-];
+let state = {
+  products: [], rules: [], orders: [], cart: [],
+  settings: { whatsapp: '' },
+  activeCategory: '',
+  filters: { q:'', sort:'new', stock:'all', priceMin:0, priceMax:1000 }
+};
 
 /* ---------- PERSISTENCE ---------- */
 function load() {
-  try { state.products = JSON.parse(localStorage.getItem(LS_KEYS.products)) || []; } catch { state.products = []; }
-  try { state.rules    = JSON.parse(localStorage.getItem(LS_KEYS.rules))    || DEFAULT_RULES; } catch { state.rules = DEFAULT_RULES; }
-  try { state.orders   = JSON.parse(localStorage.getItem(LS_KEYS.orders))   || []; } catch { state.orders = []; }
+  try { state.products = JSON.parse(localStorage.getItem(LS.products)) || []; } catch { state.products = []; }
+  try { state.rules = JSON.parse(localStorage.getItem(LS.rules)) || DEFAULT_RULES; } catch { state.rules = DEFAULT_RULES; }
+  try { state.orders = JSON.parse(localStorage.getItem(LS.orders)) || []; } catch { state.orders = []; }
+  try { state.cart = JSON.parse(localStorage.getItem(LS.cart)) || []; } catch { state.cart = []; }
+  try { state.settings = { ...state.settings, ...JSON.parse(localStorage.getItem(LS.settings)) }; } catch {}
   if (!state.rules.length) state.rules = DEFAULT_RULES;
 }
 function save() {
-  localStorage.setItem(LS_KEYS.products, JSON.stringify(state.products));
-  localStorage.setItem(LS_KEYS.rules, JSON.stringify(state.rules));
-  localStorage.setItem(LS_KEYS.orders, JSON.stringify(state.orders));
+  localStorage.setItem(LS.products, JSON.stringify(state.products));
+  localStorage.setItem(LS.rules, JSON.stringify(state.rules));
+  localStorage.setItem(LS.orders, JSON.stringify(state.orders));
+  localStorage.setItem(LS.cart, JSON.stringify(state.cart));
+  localStorage.setItem(LS.settings, JSON.stringify(state.settings));
 }
 
-/* ---------- PRICING ENGINE ---------- */
+/* ---------- ADMIN SECURITY ---------- */
+function getAdminPassword() { return localStorage.getItem(ADMIN_PASSWORD_KEY) || DEFAULT_ADMIN_PASSWORD; }
+function tryOpenAdmin() {
+  if (localStorage.getItem(ADMIN_SESSION_KEY) === '1') { showView('admin'); return; }
+  document.getElementById('adminPasswordInput').value = '';
+  document.getElementById('loginError').classList.add('hidden');
+  document.getElementById('adminLoginModal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('adminPasswordInput').focus(), 100);
+}
+function tryLogin(e) {
+  e.preventDefault();
+  const input = document.getElementById('adminPasswordInput').value;
+  if (input === getAdminPassword()) {
+    localStorage.setItem(ADMIN_SESSION_KEY, '1');
+    closeModal('adminLoginModal');
+    showView('admin');
+    toast('👋 مرحبا بك فلوحة التحكم');
+  } else {
+    document.getElementById('loginError').classList.remove('hidden');
+    document.getElementById('adminPasswordInput').value = '';
+    document.getElementById('adminPasswordInput').focus();
+  }
+}
+function adminLogout() {
+  localStorage.removeItem(ADMIN_SESSION_KEY);
+  showView('store');
+  toast('👋 خرجتي من لوحة التحكم');
+}
+function changeAdminPassword() {
+  const oldP = document.getElementById('oldPass').value;
+  const newP = document.getElementById('newPass').value;
+  if (oldP !== getAdminPassword()) return toast('❌ كلمة السر القديمة غالطة');
+  if (newP.length < 6) return toast('❌ خاص 6 حروف على الأقل');
+  localStorage.setItem(ADMIN_PASSWORD_KEY, newP);
+  document.getElementById('oldPass').value = '';
+  document.getElementById('newPass').value = '';
+  toast('✅ تبدلت كلمة السر');
+}
+function checkAdminHash() {
+  if (window.location.hash === '#admin' || window.location.hash === '#لوحة') {
+    tryOpenAdmin();
+    history.replaceState(null, '', window.location.pathname);
+  }
+}
+let _logoClicks = 0, _logoClickTimer;
+function setupSecretLogo() {
+  const logo = document.getElementById('logoBtn');
+  if (!logo) return;
+  logo.addEventListener('click', (e) => {
+    _logoClicks++;
+    clearTimeout(_logoClickTimer);
+    _logoClickTimer = setTimeout(() => _logoClicks = 0, 800);
+    if (_logoClicks >= 3) {
+      _logoClicks = 0; e.preventDefault(); e.stopPropagation();
+      tryOpenAdmin();
+    } else {
+      e.preventDefault(); showView('store');
+    }
+  });
+}
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+    e.preventDefault(); tryOpenAdmin();
+  }
+});
+window.addEventListener('hashchange', checkAdminHash);
+
+/* ---------- DARK MODE ---------- */
+function initDark() {
+  const isDark = localStorage.getItem(LS.dark) === '1';
+  document.documentElement.classList.toggle('dark', isDark);
+  document.getElementById('darkIcon').textContent = isDark ? '☀️' : '🌙';
+}
+function toggleDark() {
+  const isDark = !document.documentElement.classList.contains('dark');
+  document.documentElement.classList.toggle('dark', isDark);
+  localStorage.setItem(LS.dark, isDark ? '1' : '0');
+  document.getElementById('darkIcon').textContent = isDark ? '☀️' : '🌙';
+  toast(isDark ? '🌙 الوضع الليلي' : '☀️ الوضع النهاري');
+}
+
+/* ---------- PRICING ---------- */
 function applyPricing(product) {
-  const rules = [...state.rules].sort((a, b) => (b.priority || 0) - (a.priority || 0));
+  const rules = [...state.rules].sort((a,b) => (b.priority||0) - (a.priority||0));
   const rule = rules.find(r => {
     if (r.minCost != null && product.costPrice < r.minCost) return false;
     if (r.maxCost != null && r.maxCost !== '' && product.costPrice > r.maxCost) return false;
     if (r.category && r.category !== product.category) return false;
     return true;
   });
-  if (!rule) return { ...product, finalPrice: product.costPrice, margin: 0, marginPercent: 0, appliedRule: 'لا شيء' };
-  let finalPrice = rule.type === 'percent' ? product.costPrice * (1 + rule.value / 100) : product.costPrice + rule.value;
+  if (!rule) return { ...product, finalPrice: product.costPrice, margin: 0, marginPercent: 0 };
+  let finalPrice = rule.type === 'percent' ? product.costPrice * (1 + rule.value/100) : product.costPrice + rule.value;
   finalPrice = Math.round(finalPrice);
   const margin = finalPrice - product.costPrice;
   const marginPercent = product.costPrice > 0 ? Math.round((margin / product.costPrice) * 1000) / 10 : 0;
-  return { ...product, finalPrice, margin, marginPercent, appliedRule: rule.name };
+  return { ...product, finalPrice, margin, marginPercent };
 }
 function getPricedProducts() { return state.products.map(applyPricing); }
-
 function recalculate() { save(); renderAll(); toast('✅ تعاد حساب الأسعار'); }
 
-/* ============================================================
-   RENDER
-   ============================================================ */
+/* ---------- FILTERS ---------- */
+let renderTimer;
+function debouncedRender() { clearTimeout(renderTimer); renderTimer = setTimeout(renderStore, 200); }
+function syncSearch(v) {
+  document.getElementById('searchInput').value = v;
+  document.getElementById('searchInputMobile').value = v;
+  state.filters.q = v; debouncedRender();
+}
+function updatePriceRange() {
+  let min = parseInt(document.getElementById('priceMin').value);
+  let max = parseInt(document.getElementById('priceMax').value);
+  if (min > max) [min, max] = [max, min];
+  state.filters.priceMin = min; state.filters.priceMax = max;
+  document.getElementById('priceRangeLabel').textContent = `${min} — ${max} DH`;
+  debouncedRender();
+}
+function quickFilter(type) {
+  const min = document.getElementById('priceMin'), max = document.getElementById('priceMax');
+  if (type === 'cheap') { min.value = 0; max.value = 100; }
+  else if (type === 'mid') { min.value = 100; max.value = 300; }
+  else if (type === 'premium') { min.value = 300; max.value = 1000; }
+  else if (type === 'topmargin') { min.value = 0; max.value = 1000; document.getElementById('sortSelect').value = 'margin'; state.filters.sort = 'margin'; }
+  updatePriceRange();
+}
+function resetFilters() {
+  state.filters = { q:'', sort:'new', stock:'all', priceMin:0, priceMax:1000 };
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchInputMobile').value = '';
+  document.getElementById('sortSelect').value = 'new';
+  document.getElementById('stockFilter').value = 'all';
+  document.getElementById('priceMin').value = 0;
+  document.getElementById('priceMax').value = 1000;
+  document.getElementById('priceRangeLabel').textContent = '0 — 1000 DH';
+  renderStore();
+}
+
+/* ---------- RENDER ---------- */
 function renderCategories() {
-  const grid = document.getElementById('categoriesGrid');
-  grid.innerHTML = CATEGORIES.map(c => `
+  document.getElementById('categoriesGrid').innerHTML = CATEGORIES.map(c => `
     <button onclick="filterByCategory('${c.id}')" 
-      class="category-card group bg-white rounded-2xl p-3 border border-slate-100 shadow-sm hover:shadow-lg flex flex-col items-center gap-2 text-center">
-      <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${c.color} flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition">
-        ${c.icon}
+      class="category-card group bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg flex flex-col items-center gap-2 text-center ${state.activeCategory === c.id ? 'ring-2 ring-brand-500' : ''}">
+      <div class="cat-icon w-14 h-14 rounded-2xl bg-gradient-to-br ${c.color} flex items-center justify-center text-white shadow-md group-hover:scale-110 transition">
+        ${SVG[c.id] || ''}
       </div>
-      <span class="text-xs font-bold text-slate-700 leading-tight">${c.name}</span>
+      <span class="text-xs font-bold leading-tight">${c.name}</span>
     </button>
   `).join('');
 }
-
 function filterByCategory(id) {
   state.activeCategory = (state.activeCategory === id) ? '' : id;
   const cat = CATEGORIES.find(c => c.id === id);
   document.getElementById('productsTitle').textContent = state.activeCategory ? cat.name : 'كل المنتجات';
   document.getElementById('productsSubtitle').textContent = state.activeCategory ? `منتجات فئة "${cat.name}"` : 'تصفح مجموعتنا الكاملة';
-  renderStore();
-  scrollToProducts();
+  renderCategories(); renderStore(); scrollToProducts();
 }
 function clearCategory() {
   state.activeCategory = '';
   document.getElementById('productsTitle').textContent = 'كل المنتجات';
   document.getElementById('productsSubtitle').textContent = 'تصفح مجموعتنا الكاملة';
-  renderStore();
+  renderCategories(); renderStore();
 }
+function scrollToProducts() { document.getElementById('productsSection').scrollIntoView({ behavior:'smooth' }); }
 
-function scrollToProducts() {
-  document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+function renderSkeletons(count = 8) {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = Array(count).fill(0).map(() => `
+    <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700">
+      <div class="aspect-square skeleton"></div>
+      <div class="p-4 space-y-2">
+        <div class="h-3 w-20 rounded skeleton"></div>
+        <div class="h-4 w-full rounded skeleton"></div>
+        <div class="h-4 w-3/4 rounded skeleton"></div>
+        <div class="h-6 w-24 rounded skeleton mt-3"></div>
+      </div>
+    </div>
+  `).join('');
 }
 
 function renderStore() {
   const grid = document.getElementById('productsGrid');
   const empty = document.getElementById('emptyState');
-  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
-  const sort = document.getElementById('sortSelect')?.value || 'new';
+  const sortEl = document.getElementById('sortSelect');
+  const stockEl = document.getElementById('stockFilter');
+  state.filters.sort = sortEl?.value || state.filters.sort;
+  state.filters.stock = stockEl?.value || state.filters.stock;
+  const q = state.filters.q.toLowerCase();
 
   let priced = getPricedProducts().filter(p => {
     if (state.activeCategory && p.category !== state.activeCategory) return false;
-    if (q && !p.title.toLowerCase().includes(q) && !(p.description || '').toLowerCase().includes(q)) return false;
+    if (q && !p.title.toLowerCase().includes(q) && !(p.description||'').toLowerCase().includes(q)) return false;
+    if (p.finalPrice < state.filters.priceMin || p.finalPrice > state.filters.priceMax) return false;
+    if (state.filters.stock === 'new' && !['P001','P002','P003','P004'].includes(p.id)) return false;
+    if (state.filters.stock === 'cheap' && p.finalPrice >= 100) return false;
+    if (state.filters.stock === 'premium' && p.finalPrice < 500) return false;
     return true;
   });
 
-  if (sort === 'price-asc')  priced.sort((a,b) => a.finalPrice - b.finalPrice);
-  if (sort === 'price-desc') priced.sort((a,b) => b.finalPrice - a.finalPrice);
-  if (sort === 'margin')     priced.sort((a,b) => b.marginPercent - a.marginPercent);
+  const s = state.filters.sort;
+  if (s === 'price-asc')  priced.sort((a,b) => a.finalPrice - b.finalPrice);
+  if (s === 'price-desc') priced.sort((a,b) => b.finalPrice - a.finalPrice);
+  if (s === 'margin')     priced.sort((a,b) => b.marginPercent - a.marginPercent);
+  if (s === 'name')       priced.sort((a,b) => a.title.localeCompare(b.title, 'ar'));
 
-  if (!priced.length) {
-    grid.innerHTML = ''; empty.classList.remove('hidden'); return;
-  }
+  document.getElementById('resultsCount').textContent = priced.length;
+
+  if (!priced.length) { grid.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
 
   grid.innerHTML = priced.map((p, i) => {
     const cat = CATEGORIES.find(c => c.id === p.category);
-    const discount = Math.round((1 - p.costPrice / p.finalPrice) * 100);
+    const inCart = state.cart.find(c => c.id === p.id);
     return `
-    <div onclick="openProduct('${p.id}')" 
-      class="card-hover group bg-white rounded-3xl overflow-hidden cursor-pointer border border-slate-100 shadow-sm relative"
-      style="animation: fadeUp 0.4s ease-out ${i * 0.03}s both">
-      
+    <div class="card-hover group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm relative"
+      style="animation: fadeUp .4s ease-out ${i*0.03}s both">
       ${i < 4 ? '<span class="absolute top-3 right-3 z-10 badge-new text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">🔥 جديد</span>' : ''}
-      
-      <div class="relative aspect-square overflow-hidden bg-slate-100">
+      ${inCart ? '<span class="absolute top-3 left-3 z-10 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow">✓ فالسلة</span>' : ''}
+      <div onclick="openProduct('${p.id}')" class="relative aspect-square overflow-hidden bg-slate-100 cursor-pointer">
         <img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy"
           class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
           onerror="this.src='https://via.placeholder.com/400x400/ede9fe/7c3aed?text=bzaaf-ma'" />
-        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition">
-          <button class="w-full bg-white text-brand-700 py-2 rounded-xl font-bold text-sm">عرض التفاصيل</button>
-        </div>
       </div>
-      
       <div class="p-4">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">${cat?.icon || '📦'} ${cat?.name || 'عام'}</span>
-        </div>
-        <h3 class="font-bold text-sm line-clamp-2 h-10 mb-3 text-slate-800">${escapeHtml(p.title)}</h3>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700">${cat?.name||'عام'}</span>
+        <h3 onclick="openProduct('${p.id}')" class="font-bold text-sm line-clamp-2 h-10 mt-2 mb-3 cursor-pointer">${escapeHtml(p.title)}</h3>
         <div class="flex items-baseline justify-between">
           <div>
             <span class="text-xl font-black text-brand-700">${p.finalPrice}</span>
             <span class="text-xs text-slate-500 font-bold">MAD</span>
           </div>
-          <span class="text-xs line-through text-slate-400">${Math.round(p.costPrice * 1.4)}</span>
+          <span class="text-xs line-through text-slate-400">${Math.round(p.costPrice*1.4)}</span>
         </div>
-        <div class="mt-2 flex items-center gap-1 text-[10px] text-emerald-600 font-bold">
-          <span>✓</span> الدفع عند الاستلام
+        <div class="mt-3 flex gap-2">
+          <button onclick="addToCart('${p.id}',1);event.stopPropagation();" 
+            class="flex-1 bg-gradient-to-l from-brand-700 to-brand-500 text-white py-2 rounded-xl font-bold text-sm btn-glow hover:scale-[1.02] transition">
+            🛒 زيد للسلة
+          </button>
+          <button onclick="openProduct('${p.id}')" 
+            class="w-10 bg-slate-100 dark:bg-slate-700 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600">👁️</button>
         </div>
       </div>
     </div>
@@ -640,143 +855,241 @@ function openProduct(id) {
   const p = getPricedProducts().find(x => x.id === id);
   if (!p) return;
   const cat = CATEGORIES.find(c => c.id === p.category);
-  const modal = document.getElementById('productModal');
-  const content = document.getElementById('productModalContent');
-
-  content.innerHTML = `
-    <button onclick="closeModal('productModal')" class="float-left w-9 h-9 rounded-xl hover:bg-slate-100 text-lg">✕</button>
+  document.getElementById('productModalContent').innerHTML = `
+    <button onclick="closeModal('productModal')" class="float-left w-9 h-9 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-lg">✕</button>
     <div class="grid md:grid-cols-2 gap-8">
       <div>
         <div class="relative rounded-3xl overflow-hidden bg-slate-100 aspect-square">
-          <img src="${p.image}" class="w-full h-full object-cover" 
-            onerror="this.src='https://via.placeholder.com/600?text=bzaaf-ma'" />
-          <span class="absolute top-4 right-4 badge-new text-white text-xs font-bold px-3 py-1 rounded-full shadow">🔥 الأكثر طلباً</span>
-        </div>
-        <div class="grid grid-cols-3 gap-2 mt-3">
-          <div class="bg-slate-50 rounded-xl p-2 text-center">
-            <p class="text-lg">🚚</p>
-            <p class="text-[10px] font-bold text-slate-600 mt-1">توصيل سريع</p>
-          </div>
-          <div class="bg-slate-50 rounded-xl p-2 text-center">
-            <p class="text-lg">🛡️</p>
-            <p class="text-[10px] font-bold text-slate-600 mt-1">ضمان الجودة</p>
-          </div>
-          <div class="bg-slate-50 rounded-xl p-2 text-center">
-            <p class="text-lg">↩️</p>
-            <p class="text-[10px] font-bold text-slate-600 mt-1">إرجاع 7 أيام</p>
-          </div>
+          <img src="${p.image}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/600?text=bzaaf-ma'" />
         </div>
       </div>
       <div>
-        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-brand-100 text-brand-800">${cat?.icon || '📦'} ${cat?.name || 'عام'}</span>
-        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-2 text-slate-900">${escapeHtml(p.title)}</h2>
-        <div class="flex items-center gap-2 mb-4 text-sm">
-          <div class="text-gold-500 text-lg">★★★★★</div>
-          <span class="text-slate-500">(128 تقييم)</span>
-        </div>
+        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-brand-100 text-brand-800">${cat?.name||'عام'}</span>
+        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-2">${escapeHtml(p.title)}</h2>
+        <div class="flex items-center gap-2 mb-4 text-sm"><div class="text-gold-500 text-lg">★★★★★</div><span class="text-slate-500">(128 تقييم)</span></div>
         <div class="flex items-baseline gap-3 mb-5">
           <span class="text-4xl font-black text-brand-700">${p.finalPrice}</span>
           <span class="text-sm font-bold text-slate-500">MAD</span>
-          <span class="text-sm line-through text-slate-400">${Math.round(p.costPrice * 1.4)} MAD</span>
+          <span class="text-sm line-through text-slate-400">${Math.round(p.costPrice*1.4)} MAD</span>
         </div>
         <p class="text-slate-600 leading-relaxed mb-6 text-sm">${escapeHtml(p.description)}</p>
-
-        <form onsubmit="submitOrder(event, '${p.id}', ${p.finalPrice})" class="space-y-3 bg-gradient-to-br from-brand-50 to-white p-5 rounded-3xl border border-brand-100">
-          <h3 class="font-black text-sm text-brand-800 flex items-center gap-2">🚚 اطلب دابا — الدفع عند الاستلام</h3>
-          <input required name="name" placeholder="الاسم الكامل" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 text-sm outline-none bg-white" />
-          <input required name="phone" placeholder="رقم الهاتف" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 text-sm outline-none bg-white" />
-          <input required name="city" placeholder="المدينة" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 text-sm outline-none bg-white" />
-          <textarea required name="address" placeholder="العنوان الكامل" rows="2" class="w-full border-2 border-slate-200 focus:border-brand-500 rounded-xl p-3 text-sm outline-none bg-white"></textarea>
-          <div class="flex items-center gap-3">
-            <label class="text-sm font-bold">الكمية:</label>
-            <input type="number" min="1" value="1" name="qty" class="w-24 border-2 border-slate-200 focus:border-brand-500 rounded-xl p-2.5 text-sm outline-none bg-white" />
+        <div class="flex items-center gap-3 mb-4">
+          <label class="font-bold text-sm">الكمية:</label>
+          <div class="flex items-center border-2 border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+            <button onclick="changeQty(-1)" class="w-10 h-10 hover:bg-slate-100 dark:hover:bg-slate-800 font-black">−</button>
+            <span id="detailQty" class="w-12 text-center font-black">1</span>
+            <button onclick="changeQty(1)" class="w-10 h-10 hover:bg-slate-100 dark:hover:bg-slate-800 font-black">+</button>
           </div>
-          <button type="submit" class="w-full bg-gradient-to-l from-brand-700 to-brand-500 text-white py-4 rounded-2xl font-black hover:scale-[1.02] transition btn-glow">
-            ✅ أكد الطلب — ${p.finalPrice} MAD
+        </div>
+        <div class="space-y-2">
+          <button onclick="addToCartDetail('${p.id}')" 
+            class="w-full bg-gradient-to-l from-brand-700 to-brand-500 text-white py-4 rounded-2xl font-black btn-glow hover:scale-[1.02] transition">
+            🛒 زيد للسلة
           </button>
-        </form>
+          <button onclick="buyNow('${p.id}')" 
+            class="w-full bg-gradient-to-l from-emerald-600 to-emerald-500 text-white py-4 rounded-2xl font-black hover:scale-[1.02] transition">
+            📱 اشتري دابا
+          </button>
+        </div>
       </div>
     </div>
   `;
-  modal.classList.remove('hidden');
+  document.getElementById('productModal').classList.remove('hidden');
 }
 
-function submitOrder(e, productId, price) {
+let _detailQty = 1;
+function changeQty(delta) {
+  _detailQty = Math.max(1, _detailQty + delta);
+  document.getElementById('detailQty').textContent = _detailQty;
+}
+function addToCartDetail(id) { addToCart(id, _detailQty); _detailQty = 1; }
+function buyNow(id) { addToCart(id, _detailQty, true); _detailQty = 1; closeModal('productModal'); openCart(); }
+
+/* ---------- CART ---------- */
+function addToCart(id, qty = 1, silent = false) {
+  const p = state.products.find(x => x.id === id);
+  if (!p) return;
+  const existing = state.cart.find(c => c.id === id);
+  if (existing) existing.qty += qty;
+  else state.cart.push({ id, qty });
+  save(); updateCartBadge();
+  if (!silent) {
+    toast(`✅ تزاد ${qty} × ${p.title.slice(0,30)}`);
+    const badge = document.getElementById('cartCount');
+    badge.classList.add('cart-bounce');
+    setTimeout(() => badge.classList.remove('cart-bounce'), 400);
+  }
+}
+function removeFromCart(id) {
+  state.cart = state.cart.filter(c => c.id !== id);
+  save(); updateCartBadge(); renderCart(); renderStore();
+}
+function updateCartQty(id, delta) {
+  const item = state.cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  save(); updateCartBadge(); renderCart();
+}
+function updateCartBadge() {
+  const count = state.cart.reduce((s,c) => s + c.qty, 0);
+  const badge = document.getElementById('cartCount');
+  badge.textContent = count;
+  badge.classList.toggle('hidden', count === 0);
+}
+function getCartTotal() {
+  return state.cart.reduce((sum, c) => {
+    const p = getPricedProducts().find(x => x.id === c.id);
+    return sum + (p ? p.finalPrice * c.qty : 0);
+  }, 0);
+}
+function openCart() { document.getElementById('cartOverlay').classList.remove('hidden'); renderCart(); }
+function closeCart(e) {
+  if (e && e.target && e.target.id !== 'cartOverlay') return;
+  document.getElementById('cartOverlay').classList.add('hidden');
+}
+function renderCart() {
+  const list = document.getElementById('cartItems');
+  const total = document.getElementById('cartTotal');
+  const btn = document.getElementById('cartCheckoutBtn');
+  if (!state.cart.length) {
+    list.innerHTML = `<div class="text-center py-16"><div class="text-6xl mb-4">🛒</div><p class="text-slate-500 font-bold">السلة خاوية</p></div>`;
+    total.textContent = '0 MAD';
+    btn.disabled = true;
+    return;
+  }
+  const priced = getPricedProducts();
+  list.innerHTML = state.cart.map(c => {
+    const p = priced.find(x => x.id === c.id);
+    if (!p) return '';
+    return `
+      <div class="flex gap-3 bg-slate-50 dark:bg-slate-800 rounded-2xl p-3">
+        <img src="${p.image}" class="w-20 h-20 rounded-xl object-cover" onerror="this.src='https://via.placeholder.com/80'" />
+        <div class="flex-1 min-w-0">
+          <h4 class="font-bold text-sm truncate">${escapeHtml(p.title)}</h4>
+          <p class="text-xs text-slate-500">${p.finalPrice} MAD / وحدة</p>
+          <div class="flex items-center justify-between mt-2">
+            <div class="flex items-center border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900">
+              <button onclick="updateCartQty('${c.id}',-1)" class="w-7 h-7 hover:bg-slate-100 dark:hover:bg-slate-800 font-black text-sm">−</button>
+              <span class="w-8 text-center font-bold text-sm">${c.qty}</span>
+              <button onclick="updateCartQty('${c.id}',1)" class="w-7 h-7 hover:bg-slate-100 dark:hover:bg-slate-800 font-black text-sm">+</button>
+            </div>
+            <span class="font-black text-brand-700 text-sm">${p.finalPrice * c.qty} MAD</span>
+          </div>
+        </div>
+        <button onclick="removeFromCart('${c.id}')" class="text-red-500 hover:text-red-700 text-lg self-start">🗑️</button>
+      </div>`;
+  }).join('');
+  total.textContent = getCartTotal() + ' MAD';
+  btn.disabled = false;
+}
+
+/* ---------- CHECKOUT ---------- */
+function checkoutCart() {
+  if (!state.cart.length) return;
+  document.getElementById('checkoutItemsCount').textContent = state.cart.reduce((s,c) => s+c.qty, 0);
+  document.getElementById('checkoutTotal').textContent = getCartTotal() + ' MAD';
+  document.getElementById('checkoutModal').classList.remove('hidden');
+  closeCart();
+}
+function submitCheckout(e) {
   e.preventDefault();
   const fd = new FormData(e.target);
-  const qty = Number(fd.get('qty')) || 1;
-  const p = state.products.find(x => x.id === productId);
+  const total = getCartTotal();
   const order = {
     id: 'BZ-' + Date.now(),
-    productId, productTitle: p?.title || '', quantity: qty, price, total: price * qty,
-    customer: { name: fd.get('name'), phone: fd.get('phone'), city: fd.get('city'), address: fd.get('address') },
-    status: 'new', createdAt: new Date().toISOString()
+    items: state.cart.map(c => {
+      const p = getPricedProducts().find(x => x.id === c.id);
+      return { id:c.id, title:p?.title||'', qty:c.qty, price:p?.finalPrice||0 };
+    }),
+    total,
+    customer: { name:fd.get('name'), phone:fd.get('phone'), city:fd.get('city'), address:fd.get('address') },
+    status: 'new',
+    createdAt: new Date().toISOString()
   };
   state.orders.unshift(order);
   save();
-  updateOrdersBadge();
-  renderOrders();
-  closeModal('productModal');
-  toast(`✅ تسجل الطلب! رقم: ${order.id}`);
+  const wa = state.settings.whatsapp;
+  const msg = buildWhatsappMessage(order);
+  if (wa) window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, '_blank');
+  state.cart = [];
+  save(); updateCartBadge(); renderOrders();
+  closeModal('checkoutModal');
+  toast(wa ? '✅ تسجل الطلب! تفتح واتساب' : '✅ تسجل الطلب!');
+  e.target.reset();
+}
+function buildWhatsappMessage(order) {
+  let msg = `🛍️ *طلب جديد من bzaaf-ma*\n\n`;
+  msg += `📋 *رقم الطلب:* ${order.id}\n\n`;
+  msg += `👤 *الاسم:* ${order.customer.name}\n`;
+  msg += `📞 *الهاتف:* ${order.customer.phone}\n`;
+  msg += `📍 *المدينة:* ${order.customer.city}\n`;
+  msg += `🏠 *العنوان:* ${order.customer.address}\n\n`;
+  msg += `━━━━━━━━━━━━━━━━\n📦 *المنتجات:*\n`;
+  order.items.forEach((item, i) => {
+    msg += `${i+1}. ${item.title}\n   ${item.qty} × ${item.price} = ${item.qty * item.price} MAD\n`;
+  });
+  msg += `━━━━━━━━━━━━━━━━\n💰 *المجموع:* ${order.total} MAD\n\n💵 الدفع عند الاستلام`;
+  return msg;
+}
+function saveWhatsapp() {
+  const v = document.getElementById('whatsappInput').value.replace(/\D/g, '');
+  if (!v) return toast('❌ دخل رقم صحيح');
+  state.settings.whatsapp = v; save();
+  document.getElementById('footerPhone').textContent = '+' + v;
+  toast('✅ تسجل رقم واتساب');
+}
+function openWhatsappDirect(e) {
+  e.preventDefault();
+  if (!state.settings.whatsapp) return toast('❌ زيد رقم واتساب من التحكم');
+  window.open(`https://wa.me/${state.settings.whatsapp}?text=${encodeURIComponent('السلام، عندي سؤال على bzaaf-ma')}`, '_blank');
 }
 
-/* ============================================================
-   ADMIN — RULES
-   ============================================================ */
+/* ---------- ADMIN RULES ---------- */
 function renderRules() {
   const list = document.getElementById('rulesList');
-  if (!state.rules.length) {
-    list.innerHTML = '<p class="text-sm text-slate-500">ما كاينش قواعد. زيد واحدة.</p>';
-    return;
-  }
+  if (!state.rules.length) { list.innerHTML='<p class="text-sm text-slate-500">ما كاينش قواعد.</p>'; return; }
   list.innerHTML = state.rules.map((r, i) => `
-    <div class="border-2 border-slate-100 rounded-2xl p-3 space-y-2 bg-slate-50/50">
+    <div class="border-2 border-slate-100 dark:border-slate-700 rounded-2xl p-3 space-y-2 bg-slate-50/50 dark:bg-slate-900/40">
       <div class="flex gap-2">
-        <input value="${escapeHtml(r.name)}" onchange="updateRule(${i}, 'name', this.value)"
-          class="flex-1 border-2 border-slate-200 focus:border-brand-500 rounded-lg p-2 text-sm outline-none bg-white" placeholder="اسم القاعدة" />
+        <input value="${escapeHtml(r.name)}" onchange="updateRule(${i},'name',this.value)"
+          class="flex-1 border-2 border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm bg-white dark:bg-slate-900 outline-none" />
         <button onclick="removeRule(${i})" class="bg-red-100 text-red-700 px-3 rounded-lg text-sm font-bold hover:bg-red-200">🗑</button>
       </div>
       <div class="grid grid-cols-3 gap-2">
-        <select onchange="updateRule(${i}, 'type', this.value)" class="border-2 border-slate-200 rounded-lg p-2 text-sm bg-white outline-none">
-          <option value="percent" ${r.type === 'percent' ? 'selected' : ''}>% نسبة</option>
-          <option value="fixed" ${r.type === 'fixed' ? 'selected' : ''}>+ ثابت</option>
+        <select onchange="updateRule(${i},'type',this.value)" class="border-2 border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm bg-white dark:bg-slate-900 outline-none">
+          <option value="percent" ${r.type==='percent'?'selected':''}>% نسبة</option>
+          <option value="fixed" ${r.type==='fixed'?'selected':''}>+ ثابت</option>
         </select>
-        <input type="number" step="0.1" value="${r.value}" onchange="updateRule(${i}, 'value', parseFloat(this.value))"
-          class="border-2 border-slate-200 rounded-lg p-2 text-sm bg-white outline-none" placeholder="القيمة" />
-        <input type="number" value="${r.priority || 1}" onchange="updateRule(${i}, 'priority', parseInt(this.value))"
-          class="border-2 border-slate-200 rounded-lg p-2 text-sm bg-white outline-none" placeholder="أولوية" />
+        <input type="number" step="0.1" value="${r.value}" onchange="updateRule(${i},'value',parseFloat(this.value))"
+          class="border-2 border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm bg-white dark:bg-slate-900 outline-none" />
+        <input type="number" value="${r.priority||1}" onchange="updateRule(${i},'priority',parseInt(this.value))"
+          class="border-2 border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm bg-white dark:bg-slate-900 outline-none" placeholder="أولوية" />
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 function updateRule(i, field, value) { state.rules[i][field] = value; }
 function addRule() {
-  state.rules.push({ id: 'r' + Date.now(), name: 'قاعدة جديدة', type: 'percent', value: 30, priority: 1, minCost: null, maxCost: null, category: '' });
+  state.rules.push({ id:'r'+Date.now(), name:'قاعدة جديدة', type:'percent', value:30, priority:1, minCost:null, maxCost:null, category:'' });
   renderRules();
 }
-function removeRule(i) { state.rules.splice(i, 1); renderRules(); }
+function removeRule(i) { state.rules.splice(i,1); renderRules(); }
 function saveRules() { save(); renderAll(); toast('💾 تسجلو القواعد'); }
 
-/* ============================================================
-   ADMIN — PRODUCTS
-   ============================================================ */
+/* ---------- ADMIN PRODUCTS ---------- */
 function renderAdminProducts() {
   const list = document.getElementById('adminProductsList');
   const priced = getPricedProducts();
-  list.innerHTML = priced.slice(0, 10).map(p => `
-    <div class="flex items-center gap-3 border-2 border-slate-100 rounded-2xl p-2 bg-white">
-      <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover" 
-        onerror="this.src='https://via.placeholder.com/60?text=bz'" />
+  list.innerHTML = priced.slice(0, 15).map(p => `
+    <div class="flex items-center gap-3 border-2 border-slate-100 dark:border-slate-700 rounded-2xl p-2 bg-white dark:bg-slate-900">
+      <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover" onerror="this.src='https://via.placeholder.com/60'" />
       <div class="flex-1 min-w-0">
         <p class="truncate font-bold text-sm">${escapeHtml(p.title)}</p>
         <p class="text-xs text-slate-500">${p.costPrice} → <span class="text-emerald-600 font-bold">${p.finalPrice} MAD</span></p>
       </div>
-      <button onclick="editProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-sm">✏️</button>
+      <button onclick="editProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-sm">✏️</button>
       <button onclick="deleteProduct('${p.id}')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-sm">🗑</button>
-    </div>
-  `).join('') || '<p class="text-xs text-slate-400 text-center py-4">ما كاينش منتجات</p>';
+    </div>`).join('') || '<p class="text-xs text-slate-400 text-center py-4">ما كاينش منتجات</p>';
 }
-
 function loadMockProducts() {
   let added = 0;
   MOCK_PRODUCTS.forEach(mp => {
@@ -785,21 +1098,16 @@ function loadMockProducts() {
   save(); renderAll();
   toast(`🎁 تزادو ${added} منتجات تجريبية`);
 }
-
 function openProductForm(product = null) {
   document.getElementById('pf-id').value = product?.id || '';
   document.getElementById('pf-title').value = product?.title || '';
   document.getElementById('pf-desc').value = product?.description || '';
   document.getElementById('pf-image').value = product?.image || '';
   document.getElementById('pf-cost').value = product?.costPrice || '';
-  document.getElementById('pf-supplier').value = product?.supplier || '';
-
   const sel = document.getElementById('pf-category');
-  sel.innerHTML = CATEGORIES.map(c => `<option value="${c.id}" ${product?.category === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('');
-
+  sel.innerHTML = CATEGORIES.map(c => `<option value="${c.id}" ${product?.category===c.id?'selected':''}>${c.name}</option>`).join('');
   document.getElementById('productFormModal').classList.remove('hidden');
 }
-
 function saveProduct(e) {
   e.preventDefault();
   const id = document.getElementById('pf-id').value;
@@ -809,34 +1117,28 @@ function saveProduct(e) {
     description: document.getElementById('pf-desc').value,
     image: document.getElementById('pf-image').value,
     costPrice: parseFloat(document.getElementById('pf-cost').value),
-    category: document.getElementById('pf-category').value,
-    supplier: document.getElementById('pf-supplier').value
+    category: document.getElementById('pf-category').value
   };
   if (id) {
     const idx = state.products.findIndex(p => p.id === id);
     if (idx >= 0) state.products[idx] = data;
-  } else {
-    state.products.push(data);
-  }
+  } else state.products.push(data);
   save(); closeModal('productFormModal'); renderAll();
   toast('✅ تسجل المنتج');
 }
-
 function editProduct(id) {
   const p = state.products.find(x => x.id === id);
   if (p) openProductForm(p);
 }
-
 function deleteProduct(id) {
   if (!confirm('متأكد من الحذف؟')) return;
   state.products = state.products.filter(p => p.id !== id);
-  save(); renderAll();
+  state.cart = state.cart.filter(c => c.id !== id);
+  save(); updateCartBadge(); renderAll();
   toast('🗑️ تحذف المنتج');
 }
 
-/* ============================================================
-   IMPORT / EXPORT
-   ============================================================ */
+/* ---------- IMPORT / EXPORT ---------- */
 function importJSON(e) {
   const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
@@ -848,13 +1150,11 @@ function importJSON(e) {
       arr.forEach(item => {
         if (!item.title || item.costPrice == null) return;
         state.products.push({
-          id: item.id || 'P-' + Date.now() + Math.random().toString(36).slice(2, 6),
-          title: item.title,
-          description: item.description || '',
+          id: item.id || 'P-' + Date.now() + Math.random().toString(36).slice(2,6),
+          title: item.title, description: item.description || '',
           image: item.image || item.images?.[0] || '',
           costPrice: Number(item.costPrice),
-          category: item.category || 'electronics',
-          supplier: item.supplier || ''
+          category: item.category || 'electronics'
         });
         added++;
       });
@@ -865,18 +1165,15 @@ function importJSON(e) {
   };
   reader.readAsText(file);
 }
-
 function exportData() {
-  const data = { products: state.products, rules: state.rules, orders: state.orders, exportedAt: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const data = { products:state.products, rules:state.rules, orders:state.orders, settings:state.settings, exportedAt:new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data,null,2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = `bzaaf-ma-backup-${Date.now()}.json`;
-  a.click(); URL.revokeObjectURL(url);
+  a.href = url; a.download = `bzaaf-ma-backup-${Date.now()}.json`; a.click();
+  URL.revokeObjectURL(url);
   toast('⬇️ تصدرت البيانات');
 }
-
 function importAll(e) {
   const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
@@ -886,6 +1183,7 @@ function importAll(e) {
       if (data.products) state.products = data.products;
       if (data.rules) state.rules = data.rules;
       if (data.orders) state.orders = data.orders;
+      if (data.settings) state.settings = data.settings;
       save(); renderAll();
       toast('✅ تستوردت البيانات');
     } catch { toast('❌ ملف غير صالح'); }
@@ -893,50 +1191,41 @@ function importAll(e) {
   };
   reader.readAsText(file);
 }
-
 function clearAll() {
   if (!confirm('غادي يتمسح كلشي. متأكد؟')) return;
   if (!confirm('آخر تأكيد؟')) return;
-  localStorage.removeItem(LS_KEYS.products);
-  localStorage.removeItem(LS_KEYS.rules);
-  localStorage.removeItem(LS_KEYS.orders);
-  state.products = []; state.rules = [...DEFAULT_RULES]; state.orders = [];
-  save(); renderAll();
+  Object.values(LS).forEach(k => localStorage.removeItem(k));
+  state.products = []; state.rules = [...DEFAULT_RULES]; state.orders = []; state.cart = [];
+  state.settings = { whatsapp:'' };
+  save(); updateCartBadge(); renderAll();
   toast('🗑️ تمسح كلشي');
 }
 
-/* ============================================================
-   ORDERS
-   ============================================================ */
+/* ---------- ORDERS ---------- */
 function renderOrders() {
   const list = document.getElementById('ordersList');
   if (!state.orders.length) {
-    list.innerHTML = `
-      <div class="bg-white rounded-3xl p-12 text-center border border-slate-100">
-        <div class="text-6xl mb-4">📭</div>
-        <p class="text-slate-600 text-lg">ما كاينش طلبات دابا</p>
-      </div>`;
+    list.innerHTML = `<div class="bg-white dark:bg-slate-800 rounded-3xl p-12 text-center border border-slate-100 dark:border-slate-700">
+      <div class="text-6xl mb-4">📭</div><p class="text-slate-600 text-lg">ما كاينش طلبات دابا</p></div>`;
     return;
   }
-  const statusColors = {
-    new: 'bg-blue-100 text-blue-700',
-    confirmed: 'bg-amber-100 text-amber-700',
-    shipped: 'bg-purple-100 text-purple-700',
-    delivered: 'bg-emerald-100 text-emerald-700',
-    cancelled: 'bg-red-100 text-red-700'
-  };
-  const statusLabels = { new:'جديد', confirmed:'مؤكد', shipped:'مشحون', delivered:'موصل', cancelled:'ملغى' };
+  const colors = { new:'bg-blue-100 text-blue-700', confirmed:'bg-amber-100 text-amber-700', shipped:'bg-purple-100 text-purple-700', delivered:'bg-emerald-100 text-emerald-700', cancelled:'bg-red-100 text-red-700' };
+  const labels = { new:'جديد', confirmed:'مؤكد', shipped:'مشحون', delivered:'موصل', cancelled:'ملغى' };
 
-  list.innerHTML = state.orders.map(o => `
-    <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
+  list.innerHTML = state.orders.map(o => {
+    const items = o.items || [{ title: o.productTitle || '—', qty: o.quantity||1, price: o.price||0 }];
+    return `
+    <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
       <div class="flex items-start justify-between gap-4 flex-wrap">
         <div class="flex-1 min-w-[200px]">
           <div class="flex items-center gap-2 mb-2">
             <span class="font-black">${o.id}</span>
-            <span class="text-xs px-3 py-1 rounded-full font-bold ${statusColors[o.status]}">${statusLabels[o.status]}</span>
+            <span class="text-xs px-3 py-1 rounded-full font-bold ${colors[o.status]}">${labels[o.status]}</span>
           </div>
-          <p class="text-sm font-bold text-slate-800">${escapeHtml(o.productTitle)}</p>
-          <p class="text-xs text-slate-400 mt-1">${new Date(o.createdAt).toLocaleString('ar-MA')}</p>
+          <div class="space-y-1 mb-2">
+            ${items.map(it => `<p class="text-sm font-bold">${escapeHtml(it.title)} <span class="text-xs text-slate-500">×${it.qty}</span></p>`).join('')}
+          </div>
+          <p class="text-xs text-slate-400">${new Date(o.createdAt).toLocaleString('ar-MA')}</p>
         </div>
         <div class="text-sm">
           <p class="font-bold">${escapeHtml(o.customer.name)}</p>
@@ -945,59 +1234,71 @@ function renderOrders() {
         </div>
         <div class="text-left">
           <p class="text-2xl font-black text-brand-700">${o.total} <span class="text-xs text-slate-500">MAD</span></p>
-          <p class="text-xs text-slate-500">الكمية: ${o.quantity}</p>
-          <select onchange="updateOrderStatus('${o.id}', this.value)" class="mt-2 border-2 border-slate-200 rounded-xl p-1.5 text-xs bg-white font-bold">
-            ${Object.entries(statusLabels).map(([k, v]) => `<option value="${k}" ${o.status === k ? 'selected' : ''}>${v}</option>`).join('')}
+          <select onchange="updateOrderStatus('${o.id}',this.value)" class="mt-2 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-1.5 text-xs bg-white dark:bg-slate-900 font-bold">
+            ${Object.entries(labels).map(([k,v]) => `<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}
           </select>
+          <button onclick="resendWhatsapp('${o.id}')" class="block mt-2 text-xs text-emerald-600 hover:underline font-semibold">📱 أعد إرسال واتساب</button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 function updateOrderStatus(id, status) {
   const o = state.orders.find(x => x.id === id);
   if (o) { o.status = status; save(); renderOrders(); }
 }
-function updateOrdersBadge() {
-  document.getElementById('ordersCount').textContent = state.orders.length;
+function resendWhatsapp(id) {
+  const o = state.orders.find(x => x.id === id);
+  if (!o) return;
+  const wa = state.settings.whatsapp;
+  if (!wa) return toast('❌ زيد رقم واتساب أولاً');
+  window.open(`https://wa.me/${wa}?text=${encodeURIComponent(buildWhatsappMessage(o))}`, '_blank');
+}
+function clearOrders() {
+  if (!state.orders.length) return;
+  if (!confirm('حذف جميع الطلبات؟')) return;
+  state.orders = []; save(); renderOrders(); updateStats();
+  toast('🗑️ تتحذفو الطلبات');
 }
 
-/* ============================================================
-   NAV / UTIL
-   ============================================================ */
+/* ---------- NAV / UTIL ---------- */
 function showView(view) {
-  state.view = view;
-  ['store', 'admin', 'orders'].forEach(v => {
-    document.getElementById('view-' + v).classList.toggle('hidden', v !== view);
+  if (view === 'admin' && localStorage.getItem(ADMIN_SESSION_KEY) !== '1') { tryOpenAdmin(); return; }
+  ['store','admin','orders'].forEach(v => {
+    const el = document.getElementById('view-' + v);
+    if (el) el.classList.toggle('hidden', v !== view);
   });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (view === 'admin')  { renderRules(); renderAdminProducts(); updateStats(); }
-  if (view === 'orders') renderOrders();
+  window.scrollTo({ top:0, behavior:'smooth' });
+  if (view === 'admin')  { renderRules(); renderAdminProducts(); updateStats(); document.getElementById('whatsappInput').value = state.settings.whatsapp; renderOrders(); }
 }
-
 function updateStats() {
   const priced = getPricedProducts();
   document.getElementById('statProducts').textContent = state.products.length;
   document.getElementById('statOrders').textContent = state.orders.length;
   document.getElementById('statRules').textContent = state.rules.length;
-  const avg = priced.length ? Math.round(priced.reduce((s, p) => s + p.marginPercent, 0) / priced.length) : 0;
+  const avg = priced.length ? Math.round(priced.reduce((s,p) => s + p.marginPercent, 0) / priced.length) : 0;
   document.getElementById('statMargin').textContent = avg + '%';
+  document.getElementById('heroProductsCount').textContent = state.products.length;
 }
-
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 function escapeHtml(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
 function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.remove('hidden');
+  t.textContent = msg; t.classList.remove('hidden');
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.add('hidden'), 2500);
+  t._t = setTimeout(() => t.classList.add('hidden'), 2800);
 }
 
-document.querySelectorAll('#productModal, #productFormModal').forEach(m => {
+document.querySelectorAll('#productModal, #productFormModal, #checkoutModal, #adminLoginModal').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    ['productModal','productFormModal','checkoutModal','adminLoginModal'].forEach(closeModal);
+    document.getElementById('cartOverlay').classList.add('hidden');
+  }
 });
 
 function renderAll() {
@@ -1006,21 +1307,54 @@ function renderAll() {
   renderRules();
   renderAdminProducts();
   renderOrders();
-  updateOrdersBadge();
+  updateCartBadge();
   updateStats();
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
+/* ---------- PRODUCT FORM MODAL ---------- */
+(function ensureProductFormModal() {
+  if (document.getElementById('productFormModal')) return;
+  const html = `
+  <div id="productFormModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 md:p-8 max-h-[92vh] overflow-y-auto shadow-2xl">
+      <div class="flex items-center justify-between mb-5">
+        <h3 class="font-black text-xl">إضافة / تعديل منتج</h3>
+        <button onclick="closeModal('productFormModal')" class="w-8 h-8 rounded-lg hover:bg-slate-100">✕</button>
+      </div>
+      <form id="productForm" class="space-y-3" onsubmit="saveProduct(event)">
+        <input type="hidden" id="pf-id" />
+        <input required id="pf-title" placeholder="عنوان المنتج" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" />
+        <textarea required id="pf-desc" placeholder="الوصف" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" rows="3"></textarea>
+        <input required id="pf-image" placeholder="رابط الصورة (URL)" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" />
+        <div class="grid grid-cols-2 gap-3">
+          <input required type="number" step="0.01" id="pf-cost" placeholder="ثمن التكلفة (MAD)" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800" />
+          <select id="pf-category" class="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-brand-500 rounded-xl p-3 outline-none bg-white dark:bg-slate-800"></select>
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 bg-gradient-to-l from-brand-700 to-brand-500 text-white py-3 rounded-xl font-bold btn-glow">💾 سجل</button>
+          <button type="button" onclick="closeModal('productFormModal')" class="flex-1 bg-slate-100 dark:bg-slate-800 py-3 rounded-xl font-bold">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+})();
+
+/* ---------- INIT ---------- */
 (function init() {
+  initDark();
   load();
   if (!state.products.length) {
     state.products = MOCK_PRODUCTS.map(p => ({ ...p }));
     save();
   }
-  renderAll();
-  showView('store');
+  if (state.settings.whatsapp) {
+    document.getElementById('footerPhone').textContent = '+' + state.settings.whatsapp;
+  }
+  setupSecretLogo();
+  checkAdminHash();
+  renderSkeletons(8);
+  setTimeout(() => { renderAll(); showView('store'); }, 400);
 })();
 </script>
 </body>
