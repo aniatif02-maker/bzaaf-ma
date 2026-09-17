@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dropship Hub — منصة الوساطة التسويقية</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif; }
+  .modal-bg { backdrop-filter: blur(6px); }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🛍️</span>
+      <h1 class="text-xl font-bold">Dropship Hub</h1>
+      <span id="modeBadge" class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">وضع المتجر</span>
+    </div>
+    <nav class="flex items-center gap-2">
+      <button onclick="showView('store')" class="px-3 py-2 rounded-lg text-sm hover:bg-slate-100">المتجر</button>
+      <button onclick="showView('admin')" class="px-3 py-2 rounded-lg text-sm hover:bg-slate-100">لوحة التحكم</button>
+      <button onclick="showView('orders')" class="px-3 py-2 rounded-lg text-sm hover:bg-slate-100">
+        الطلبات <span id="ordersCount" class="bg-red-500 text-white text-xs rounded-full px-1.5 ml-1">0</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= STORE VIEW ================= -->
+<main id="view-store" class="max-w-7xl mx-auto px-4 py-6">
+  <div class="mb-5 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+    <div>
+      <h2 class="text-2xl font-bold">المنتجات المتوفرة</h2>
+      <p class="text-sm text-slate-500">الدفع عند الاستلام — توصيل لجميع المدن</p>
+    </div>
+    <div class="flex gap-2">
+      <input id="searchInput" type="text" placeholder="🔍 ابحث عن منتج..." 
+        class="border rounded-lg px-3 py-2 text-sm w-full md:w-64" oninput="renderStore()" />
+      <select id="categoryFilter" class="border rounded-lg px-3 py-2 text-sm" onchange="renderStore()">
+        <option value="">كل الفئات</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+  <div id="emptyState" class="hidden text-center py-20">
+    <p class="text-4xl mb-3">📦</p>
+    <p class="text-slate-600 mb-4">ما كاينش منتجات دابا</p>
+    <button onclick="showView('admin')" class="bg-emerald-600 text-white px-5 py-2 rounded-lg font-semibold">
+      سير للوحة التحكم وزيد منتجات
+    </button>
+  </div>
+</main>
+
+<!-- ================= ADMIN VIEW ================= -->
+<main id="view-admin" class="hidden max-w-7xl mx-auto px-4 py-6">
+  <h2 class="text-2xl font-bold mb-5">⚙️ لوحة التحكم</h2>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+    <div class="bg-white rounded-xl p-4 shadow-sm border">
+      <p class="text-xs text-slate-500">عدد المنتجات</p>
+      <p id="statProducts" class="text-2xl font-bold text-slate-900">0</p>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm border">
+      <p class="text-xs text-slate-500">الطلبات</p>
+      <p id="statOrders" class="text-2xl font-bold text-slate-900">0</p>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm border">
+      <p class="text-xs text-slate-500">متوسط هامش الربح</p>
+      <p id="statMargin" class="text-2xl font-bold text-emerald-600">0%</p>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm border">
+      <p class="text-xs text-slate-500">قواعد التسعير</p>
+      <p id="statRules" class="text-2xl font-bold text-slate-900">0</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <!-- Pricing Rules -->
+    <section class="bg-white rounded-xl p-5 shadow-sm border">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold">💹 قواعد هامش الربح</h3>
+        <button onclick="addRule()" class="text-sm bg-slate-900 text-white px-3 py-1.5 rounded-lg">+ قاعدة</button>
+      </div>
+      <p class="text-xs text-slate-500 mb-4">القاعدة ذات الأولوية الأعلى كتطبق أولاً. القاعدة اللي كتطابق الشروط كتفوز.</p>
+      <div id="rulesList" class="space-y-3"></div>
+      <div class="mt-4 flex gap-2">
+        <button onclick="saveRules()" class="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold">💾 سجل القواعد</button>
+        <button onclick="recalculate()" class="flex-1 bg-amber-500 text-white py-2 rounded-lg font-semibold">🔄 أعد الحساب</button>
+      </div>
+    </section>
+
+    <!-- Products Manager -->
+    <section class="bg-white rounded-xl p-5 shadow-sm border">
+      <h3 class="font-bold mb-4">📦 إدارة المنتجات</h3>
+
+      <div class="space-y-3">
+        <button onclick="loadMockProducts()" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-semibold">
+          🎁 حمّل منتجات تجريبية (Mock)
+        </button>
+
+        <div class="border-2 border-dashed rounded-lg p-4 text-center">
+          <p class="text-sm text-slate-600 mb-2">استورد منتجات من JSON</p>
+          <input type="file" accept=".json" onchange="importJSON(event)" 
+            class="text-sm block mx-auto" />
+        </div>
+
+        <button onclick="openProductForm()" class="w-full bg-slate-800 text-white py-2 rounded-lg font-semibold">
+          ✏️ زيد منتج يدوياً
+        </button>
+
+        <button onclick="exportData()" class="w-full bg-slate-200 py-2 rounded-lg font-semibold">
+          ⬇️ صدّر كل البيانات
+        </button>
+        <label class="block w-full bg-slate-200 text-center py-2 rounded-lg font-semibold cursor-pointer">
+          ⬆️ استورد كل البيانات
+          <input type="file" accept=".json" onchange="importAll(event)" class="hidden" />
+        </label>
+        <button onclick="clearAll()" class="w-full bg-red-100 text-red-700 py-2 rounded-lg font-semibold">
+          🗑️ مسح كلشي
+        </button>
+      </div>
+
+      <div class="mt-6">
+        <h4 class="font-semibold text-sm mb-2">أول 5 منتجات:</h4>
+        <div id="adminProductsList" class="space-y-2 text-sm"></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ================= ORDERS VIEW ================= -->
+<main id="view-orders" class="hidden max-w-7xl mx-auto px-4 py-6">
+  <h2 class="text-2xl font-bold mb-5">📋 الطلبات</h2>
+  <div id="ordersList" class="space-y-3"></div>
+</main>
+
+<!-- ================= MODALS ================= -->
+
+<!-- Product Detail + Order -->
+<div id="productModal" class="hidden fixed inset-0 z-50 modal-bg bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+    <div id="productModalContent" class="p-6"></div>
+  </div>
+</div>
+
+<!-- Product Form -->
+<div id="productFormModal" class="hidden fixed inset-0 z-50 modal-bg bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+    <h3 class="font-bold text-lg mb-4">إضافة / تعديل منتج</h3>
+    <form id="productForm" class="space-y-3" onsubmit="saveProduct(event)">
+      <input type="hidden" id="pf-id" />
+      <input required id="pf-title" placeholder="عنوان المنتج" class="w-full border rounded-lg p-2" />
+      <textarea required id="pf-desc" placeholder="الوصف" class="w-full border rounded-lg p-2" rows="3"></textarea>
+      <input required id="pf-image" placeholder="رابط الصورة" class="w-full border rounded-lg p-2" />
+      <div class="grid grid-cols-2 gap-3">
+        <input required type="number" step="0.01" id="pf-cost" placeholder="ثمن التكلفة (MAD)" class="w-full border rounded-lg p-2" />
+        <input id="pf-category" placeholder="الفئة" class="w-full border rounded-lg p-2" />
+      </div>
+      <input id="pf-supplier" placeholder="اسم المورد" class="w-full border rounded-lg p-2" />
+      <div class="flex gap-2 pt-2">
+        <button type="submit" class="flex-1 bg-emerald-600 text-white py-2 rounded-lg font-semibold">سجل</button>
+        <button type="button" onclick="closeModal('productFormModal')" class="flex-1 bg-slate-200 py-2 rounded-lg font-semibold">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-5 py-3 rounded-lg shadow-lg"></div>
+
+<script>
+/* ============================================================
+   DROPSHIP HUB — كلشي فالملف هذا
+   - localStorage للتخزين
+   - محرك قواعد للتسعير
+   - واجهة متجر + لوحة تحكم
+   ============================================================ */
+
+const LS_KEYS = {
+  products: 'dh_products',
+  rules:    'dh_rules',
+  orders:   'dh_orders'
+};
+
+/* ---------- STATE ---------- */
+let state = {
+  products: [],
+  rules: [],
+  orders: [],
+  view: 'store'
+};
+
+/* ---------- DEFAULT RULES ---------- */
+const DEFAULT_RULES = [
+  { id: 'r1', name: 'هامش افتراضي 40%', type: 'percent', value: 40, priority: 1, minCost: 0, maxCost: null, category: '' }
+];
+
+/* ---------- MOCK PRODUCTS ---------- */
+const MOCK_PRODUCTS = [
+  {
+    id: 'MOCK-001',
+    title: 'ساعة ذكية Smart Watch Pro',
+    description: 'ساعة ذكية بشاشة AMOLED، مقاومة للماء، بطارية 7 أيام، مراقبة النبض والنوم.',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80',
+    costPrice: 120,
+    category: 'إلكترونيات',
+    supplier: 'mock'
+  },
+  {
+    id: 'MOCK-002',
+    title: 'سماعات Bluetooth لاسلكية TWS',
+    description: 'سماعات TWS بجودة صوت عالية، علبة شحن، عزل ضوضاء، بلوتوث 5.3.',
+    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80',
+    costPrice: 85,
+    category: 'إلكترونيات',
+    supplier: 'mock'
+  },
+  {
+    id: 'MOCK-003',
+    title: 'مكنسة سيارة محمولة USB',
+    description: 'مكنسة قوية USB بشفط عالي، مثالية للسيارة والبيت، حجم صغير وعملي.',
+    image: 'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=600&q=80',
+    costPrice: 65,
+    category: 'منزل',
+    supplier: 'mock'
+  },
+  {
+    id: 'MOCK-004',
+    title: 'حقيبة ظهر مقاومة للماء',
+    description: 'حقيبة عصرية مقاومة للماء، منفذ USB، مساحة لابتوب 15.6 بوصة.',
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80',
+    costPrice: 95,
+    category: 'إكسسوارات',
+    supplier: 'mock'
+  },
+  {
+    id: 'MOCK-005',
+    title: 'آلة قهوة محمولة',
+    description: 'آلة قهوة إسبريسو محمولة، تشتغل بالبطارية، مثالية للسفر.',
+    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80',
+    costPrice: 180,
+    category: 'منزل',
+    supplier: 'mock'
+  },
+  {
+    id: 'MOCK-006',
+    title: 'نظارة شمسية Polarized',
+    description: 'نظارة شمسية بعدسات مستقطبة UV400، إطار خفيف ومتين.',
+    image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80',
+    costPrice: 55,
+    category: 'إكسسوارات',
+    supplier: 'mock'
+  }
+];
+
+/* ============================================================
+   PERSISTENCE
+   ============================================================ */
+function load() {
+  try { state.products = JSON.parse(localStorage.getItem(LS_KEYS.products)) || []; } catch { state.products = []; }
+  try { state.rules    = JSON.parse(localStorage.getItem(LS_KEYS.rules))    || DEFAULT_RULES; } catch { state.rules = DEFAULT_RULES; }
+  try { state.orders   = JSON.parse(localStorage.getItem(LS_KEYS.orders))   || []; } catch { state.orders = []; }
+
+  if (!state.rules.length) state.rules = DEFAULT_RULES;
+}
+function save() {
+  localStorage.setItem(LS_KEYS.products, JSON.stringify(state.products));
+  localStorage.setItem(LS_KEYS.rules,    JSON.stringify(state.rules));
+  localStorage.setItem(LS_KEYS.orders,   JSON.stringify(state.orders));
+}
+
+/* ============================================================
+   PRICING ENGINE
+   ============================================================ */
+function applyPricing(product) {
+  const rules = [...state.rules].sort((a, b) => (b.priority || 0) - (a.priority || 0));
+
+  const rule = rules.find(r => {
+    if (r.minCost != null && product.costPrice < r.minCost) return false;
+    if (r.maxCost != null && r.maxCost !== '' && product.costPrice > r.maxCost) return false;
+    if (r.category && r.category !== product.category) return false;
+    return true;
+  });
+
+  if (!rule) {
+    return { ...product, finalPrice: product.costPrice, margin: 0, marginPercent: 0, appliedRule: 'لا شيء' };
+  }
+
+  let finalPrice = rule.type === 'percent'
+    ? product.costPrice * (1 + rule.value / 100)
+    : product.costPrice + rule.value;
+
+  // Round to nearest dirham
+  finalPrice = Math.round(finalPrice);
+
+  const margin = finalPrice - product.costPrice;
+  const marginPercent = product.costPrice > 0 ? Math.round((margin / product.costPrice) * 1000) / 10 : 0;
+
+  return { ...product, finalPrice, margin, marginPercent, appliedRule: rule.name };
+}
+
+function getPricedProducts() {
+  return state.products.map(applyPricing);
+}
+
+function recalculate() {
+  save();
+  renderAll();
+  toast('✅ تعاد حساب الأسعار');
+}
+
+/* ============================================================
+   RENDER — STORE
+   ============================================================ */
+function renderStore() {
+  const grid = document.getElementById('productsGrid');
+  const empty = document.getElementById('emptyState');
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const cat = document.getElementById('categoryFilter')?.value || '';
+
+  const priced = getPricedProducts().filter(p => {
+    if (q && !p.title.toLowerCase().includes(q)) return false;
+    if (cat && p.category !== cat) return false;
+    return true;
+  });
+
+  // update categories filter
+  const catSelect = document.getElementById('categoryFilter');
+  const cats = [...new Set(state.products.map(p => p.category).filter(Boolean))];
+  const currentCat = catSelect.value;
+  catSelect.innerHTML = '<option value="">كل الفئات</option>' +
+    cats.map(c => `<option value="${c}" ${c === currentCat ? 'selected' : ''}>${c}</option>`).join('');
+
+  if (!priced.length) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = priced.map(p => `
+    <div onclick="openProduct('${p.id}')" 
+      class="bg-white rounded-xl shadow-sm border overflow-hidden cursor-pointer hover:shadow-lg transition group">
+      <div class="aspect-square overflow-hidden bg-slate-100">
+        <img src="${p.image}" alt="${escapeHtml(p.title)}" 
+          class="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
+          onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'" />
+      </div>
+      <div class="p-3">
+        <h3 class="font-semibold text-sm line-clamp-2 h-10 mb-2">${escapeHtml(p.title)}</h3>
+        <div class="flex items-center justify-between">
+          <span class="text-lg font-bold text-emerald-600">${p.finalPrice} MAD</span>
+          <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">${p.category || '-'}</span>
+        </div>
+        <p class="text-xs text-slate-400 mt-1">هامش: ${p.margin} MAD (${p.marginPercent}%)</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   PRODUCT DETAIL + ORDER
+   ============================================================ */
+function openProduct(id) {
+  const p = getPricedProducts().find(x => x.id === id);
+  if (!p) return;
+
+  const modal = document.getElementById('productModal');
+  const content = document.getElementById('productModalContent');
+
+  content.innerHTML = `
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <img src="${p.image}" class="w-full rounded-xl aspect-square object-cover" 
+          onerror="this.src='https://via.placeholder.com/600?text=No+Image'" />
+      </div>
+      <div>
+        <h2 class="text-xl font-bold mb-2">${escapeHtml(p.title)}</h2>
+        <p class="text-3xl font-bold text-emerald-600 mb-4">${p.finalPrice} MAD</p>
+        <p class="text-slate-700 text-sm whitespace-pre-line mb-4">${escapeHtml(p.description)}</p>
+        <div class="flex gap-2 mb-4 text-xs">
+          <span class="bg-slate-100 px-2 py-1 rounded">${p.category || '-'}</span>
+          <span class="bg-slate-100 px-2 py-1 rounded">المورد: ${p.supplier || '-'}</span>
+        </div>
+
+        <form onsubmit="submitOrder(event, '${p.id}', ${p.finalPrice})" class="space-y-3 bg-slate-50 p-4 rounded-lg">
+          <h3 class="font-bold text-sm">🚚 الدفع عند الاستلام</h3>
+          <input required name="name" placeholder="الاسم الكامل" class="w-full border rounded-lg p-2 text-sm" />
+          <input required name="phone" placeholder="رقم الهاتف" class="w-full border rounded-lg p-2 text-sm" />
+          <input required name="city" placeholder="المدينة" class="w-full border rounded-lg p-2 text-sm" />
+          <textarea required name="address" placeholder="العنوان الكامل" rows="2" class="w-full border rounded-lg p-2 text-sm"></textarea>
+          <div class="flex items-center gap-2">
+            <label class="text-sm">الكمية:</label>
+            <input type="number" min="1" value="1" name="qty" class="w-20 border rounded-lg p-2 text-sm" />
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700">
+            ✅ اطلب الآن — ${p.finalPrice} MAD
+          </button>
+        </form>
+        <button onclick="closeModal('productModal')" class="w-full mt-3 bg-slate-200 py-2 rounded-lg font-semibold">رجوع</button>
+      </div>
+    </div>
+  `;
+  modal.classList.remove('hidden');
+}
+
+function submitOrder(e, productId, price) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const qty = Number(fd.get('qty')) || 1;
+  const p = state.products.find(x => x.id === productId);
+
+  const order = {
+    id: 'ORD-' + Date.now(),
+    productId,
+    productTitle: p?.title || '',
+    quantity: qty,
+    price,
+    total: price * qty,
+    customer: {
+      name: fd.get('name'),
+      phone: fd.get('phone'),
+      city: fd.get('city'),
+      address: fd.get('address')
+    },
+    status: 'new',
+    createdAt: new Date().toISOString()
+  };
+
+  state.orders.unshift(order);
+  save();
+  updateOrdersBadge();
+  renderOrders();
+
+  closeModal('productModal');
+  toast(`✅ تسجل الطلب! رقم: ${order.id}`);
+}
+
+/* ============================================================
+   ADMIN — RULES
+   ============================================================ */
+function renderRules() {
+  const list = document.getElementById('rulesList');
+  if (!state.rules.length) {
+    list.innerHTML = '<p class="text-sm text-slate-500">ما كاينش قواعد. زيد واحدة.</p>';
+    return;
+  }
+
+  list.innerHTML = state.rules.map((r, i) => `
+    <div class="border rounded-lg p-3 space-y-2 bg-slate-50">
+      <div class="flex gap-2">
+        <input value="${escapeHtml(r.name)}" onchange="updateRule(${i}, 'name', this.value)"
+          class="flex-1 border rounded p-2 text-sm" placeholder="اسم القاعدة" />
+        <button onclick="removeRule(${i})" class="bg-red-100 text-red-700 px-2 rounded text-sm">حذف</button>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <select onchange="updateRule(${i}, 'type', this.value)" class="border rounded p-2 text-sm">
+          <option value="percent" ${r.type === 'percent' ? 'selected' : ''}>% نسبة</option>
+          <option value="fixed" ${r.type === 'fixed' ? 'selected' : ''}>+ ثابت</option>
+        </select>
+        <input type="number" step="0.1" value="${r.value}" onchange="updateRule(${i}, 'value', parseFloat(this.value))"
+          class="border rounded p-2 text-sm" placeholder="القيمة" />
+        <input type="number" value="${r.priority || 1}" onchange="updateRule(${i}, 'priority', parseInt(this.value))"
+          class="border rounded p-2 text-sm" placeholder="أولوية" />
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <input type="number" value="${r.minCost ?? ''}" onchange="updateRule(${i}, 'minCost', this.value === '' ? null : parseFloat(this.value))"
+          class="border rounded p-2 text-sm" placeholder="أدنى تكلفة" />
+        <input type="number" value="${r.maxCost ?? ''}" onchange="updateRule(${i}, 'maxCost', this.value === '' ? null : parseFloat(this.value))"
+          class="border rounded p-2 text-sm" placeholder="أقصى تكلفة" />
+        <input value="${r.category || ''}" onchange="updateRule(${i}, 'category', this.value)"
+          class="border rounded p-2 text-sm" placeholder="الفئة" />
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateRule(i, field, value) {
+  state.rules[i][field] = value;
+}
+function addRule() {
+  state.rules.push({
+    id: 'r' + Date.now(),
+    name: 'قاعدة جديدة',
+    type: 'percent',
+    value: 30,
+    priority: 1,
+    minCost: null,
+    maxCost: null,
+    category: ''
+  });
+  renderRules();
+}
+function removeRule(i) {
+  state.rules.splice(i, 1);
+  renderRules();
+}
+function saveRules() {
+  save();
+  renderAll();
+  toast('💾 تسجلو القواعد');
+}
+
+/* ============================================================
+   ADMIN — PRODUCTS
+   ============================================================ */
+function renderAdminProducts() {
+  const list = document.getElementById('adminProductsList');
+  const priced = getPricedProducts();
+  list.innerHTML = priced.slice(0, 5).map(p => `
+    <div class="flex items-center gap-2 border rounded p-2">
+      <img src="${p.image}" class="w-10 h-10 rounded object-cover" 
+        onerror="this.src='https://via.placeholder.com/40'" />
+      <div class="flex-1 min-w-0">
+        <p class="truncate font-semibold">${escapeHtml(p.title)}</p>
+        <p class="text-xs text-slate-500">${p.costPrice} → <span class="text-emerald-600 font-bold">${p.finalPrice} MAD</span></p>
+      </div>
+      <button onclick="editProduct('${p.id}')" class="text-xs bg-slate-200 px-2 py-1 rounded">تعديل</button>
+      <button onclick="deleteProduct('${p.id}')" class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">حذف</button>
+    </div>
+  `).join('') || '<p class="text-xs text-slate-400">ما كاينش منتجات</p>';
+}
+
+function loadMockProducts() {
+  let added = 0;
+  MOCK_PRODUCTS.forEach(mp => {
+    if (!state.products.find(p => p.id === mp.id)) {
+      state.products.push({ ...mp });
+      added++;
+    }
+  });
+  save();
+  renderAll();
+  toast(`🎁 تزادو ${added} منتجات تجريبية`);
+}
+
+function openProductForm(product = null) {
+  document.getElementById('pf-id').value = product?.id || '';
+  document.getElementById('pf-title').value = product?.title || '';
+  document.getElementById('pf-desc').value = product?.description || '';
+  document.getElementById('pf-image').value = product?.image || '';
+  document.getElementById('pf-cost').value = product?.costPrice || '';
+  document.getElementById('pf-category').value = product?.category || '';
+  document.getElementById('pf-supplier').value = product?.supplier || '';
+  document.getElementById('productFormModal').classList.remove('hidden');
+}
+
+function saveProduct(e) {
+  e.preventDefault();
+  const id = document.getElementById('pf-id').value;
+  const data = {
+    id: id || 'P-' + Date.now(),
+    title: document.getElementById('pf-title').value,
+    description: document.getElementById('pf-desc').value,
+    image: document.getElementById('pf-image').value,
+    costPrice: parseFloat(document.getElementById('pf-cost').value),
+    category: document.getElementById('pf-category').value,
+    supplier: document.getElementById('pf-supplier').value
+  };
+
+  if (id) {
+    const idx = state.products.findIndex(p => p.id === id);
+    if (idx >= 0) state.products[idx] = data;
+  } else {
+    state.products.push(data);
+  }
+
+  save();
+  closeModal('productFormModal');
+  renderAll();
+  toast('✅ تسجل المنتج');
+}
+
+function editProduct(id) {
+  const p = state.products.find(x => x.id === id);
+  if (p) openProductForm(p);
+}
+
+function deleteProduct(id) {
+  if (!confirm('متأكد من الحذف؟')) return;
+  state.products = state.products.filter(p => p.id !== id);
+  save();
+  renderAll();
+  toast('🗑️ تحذف المنتج');
+}
+
+/* ============================================================
+   IMPORT / EXPORT
+   ============================================================ */
+function importJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      const arr = Array.isArray(data) ? data : [data];
+      let added = 0;
+      arr.forEach(item => {
+        if (!item.title || item.costPrice == null) return;
+        state.products.push({
+          id: item.id || 'P-' + Date.now() + Math.random().toString(36).slice(2, 6),
+          title: item.title,
+          description: item.description || '',
+          image: item.image || item.images?.[0] || '',
+          costPrice: Number(item.costPrice),
+          category: item.category || '',
+          supplier: item.supplier || ''
+        });
+        added++;
+      });
+      save();
+      renderAll();
+      toast(`✅ تزادو ${added} منتجات`);
+    } catch (err) {
+      toast('❌ الملف ماشي JSON صحيح');
+    }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function exportData() {
+  const data = {
+    products: state.products,
+    rules: state.rules,
+    orders: state.orders,
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `dropship-hub-backup-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('⬇️ تصدرت البيانات');
+}
+
+function importAll(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.products) state.products = data.products;
+      if (data.rules) state.rules = data.rules;
+      if (data.orders) state.orders = data.orders;
+      save();
+      renderAll();
+      toast('✅ تستوردت البيانات');
+    } catch {
+      toast('❌ ملف غير صالح');
+    }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function clearAll() {
+  if (!confirm('غادي يتمسح كلشي. متأكد؟')) return;
+  if (!confirm('آخر تأكيد: كل المنتجات والطلبات والقواعد غادي يتمسحو.')) return;
+  localStorage.removeItem(LS_KEYS.products);
+  localStorage.removeItem(LS_KEYS.rules);
+  localStorage.removeItem(LS_KEYS.orders);
+  state.products = [];
+  state.rules = [...DEFAULT_RULES];
+  state.orders = [];
+  save();
+  renderAll();
+  toast('🗑️ تمسح كلشي');
+}
+
+/* ============================================================
+   ORDERS VIEW
+   ============================================================ */
+function renderOrders() {
+  const list = document.getElementById('ordersList');
+  if (!state.orders.length) {
+    list.innerHTML = '<p class="text-slate-500 text-center py-10">ما كاينش طلبات دابا.</p>';
+    return;
+  }
+
+  const statusColors = {
+    new: 'bg-blue-100 text-blue-700',
+    confirmed: 'bg-amber-100 text-amber-700',
+    shipped: 'bg-purple-100 text-purple-700',
+    delivered: 'bg-emerald-100 text-emerald-700',
+    cancelled: 'bg-red-100 text-red-700'
+  };
+  const statusLabels = {
+    new: 'جديد',
+    confirmed: 'مؤكد',
+    shipped: 'مشحون',
+    delivered: 'موصل',
+    cancelled: 'ملغى'
+  };
+
+  list.innerHTML = state.orders.map(o => `
+    <div class="bg-white rounded-xl p-4 shadow-sm border">
+      <div class="flex items-start justify-between gap-3 flex-wrap">
+        <div class="flex-1 min-w-[200px]">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold">${o.id}</span>
+            <span class="text-xs px-2 py-0.5 rounded-full ${statusColors[o.status]}">${statusLabels[o.status]}</span>
+          </div>
+          <p class="text-sm font-semibold">${escapeHtml(o.productTitle)}</p>
+          <p class="text-xs text-slate-500">${new Date(o.createdAt).toLocaleString('ar-MA')}</p>
+        </div>
+        <div class="text-sm">
+          <p><b>${escapeHtml(o.customer.name)}</b></p>
+          <p class="text-slate-600">📞 ${escapeHtml(o.customer.phone)}</p>
+          <p class="text-slate-600">📍 ${escapeHtml(o.customer.city)} — ${escapeHtml(o.customer.address)}</p>
+        </div>
+        <div class="text-left">
+          <p class="text-lg font-bold text-emerald-600">${o.total} MAD</p>
+          <p class="text-xs text-slate-500">الكمية: ${o.quantity}</p>
+          <select onchange="updateOrderStatus('${o.id}', this.value)" class="mt-2 border rounded p-1 text-xs">
+            ${Object.entries(statusLabels).map(([k, v]) => 
+              `<option value="${k}" ${o.status === k ? 'selected' : ''}>${v}</option>`
+            ).join('')}
+          </select>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateOrderStatus(id, status) {
+  const o = state.orders.find(x => x.id === id);
+  if (o) { o.status = status; save(); renderOrders(); }
+}
+
+function updateOrdersBadge() {
+  document.getElementById('ordersCount').textContent = state.orders.length;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showView(view) {
+  state.view = view;
+  ['store', 'admin', 'orders'].forEach(v => {
+    document.getElementById('view-' + v).classList.toggle('hidden', v !== view);
+  });
+  const badge = document.getElementById('modeBadge');
+  badge.textContent = view === 'store' ? 'وضع المتجر' : view === 'admin' ? 'لوحة التحكم' : 'الطلبات';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (view === 'admin') {
+    renderRules();
+    renderAdminProducts();
+    updateStats();
+  }
+  if (view === 'orders') renderOrders();
+}
+
+function updateStats() {
+  const priced = getPricedProducts();
+  document.getElementById('statProducts').textContent = state.products.length;
+  document.getElementById('statOrders').textContent = state.orders.length;
+  document.getElementById('statRules').textContent = state.rules.length;
+  const avg = priced.length 
+    ? Math.round(priced.reduce((s, p) => s + p.marginPercent, 0) / priced.length) 
+    : 0;
+  document.getElementById('statMargin').textContent = avg + '%';
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => 
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.add('hidden'), 2500);
+}
+
+/* close modal on backdrop click */
+document.querySelectorAll('#productModal, #productFormModal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); });
+});
+
+/* ============================================================
+   RENDER ALL
+   ============================================================ */
+function renderAll() {
+  renderStore();
+  renderRules();
+  renderAdminProducts();
+  renderOrders();
+  updateOrdersBadge();
+  updateStats();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+(function init() {
+  load();
+  if (!state.products.length) {
+    // بذر منتجات تجريبية أول مرة
+    state.products = MOCK_PRODUCTS.map(p => ({ ...p }));
+    save();
+  }
+  renderAll();
+  showView('store');
+})();
+</script>
+</body>
+</html>
